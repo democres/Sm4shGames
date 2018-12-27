@@ -12,6 +12,7 @@
 		1F192DCF21D55F8E005111F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F192DCD21D55F8E005111F6 /* Main.storyboard */; };
 		1F192DD121D55F92005111F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F192DD021D55F92005111F6 /* Assets.xcassets */; };
 		1F192DD421D55F92005111F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F192DD221D55F92005111F6 /* LaunchScreen.storyboard */; };
+		1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F192DDE21D57541005111F6 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		1F192DD021D55F92005111F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F192DD321D55F92005111F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F192DD521D55F92005111F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F192DDE21D57541005111F6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,31 @@
 		1F192DC821D55F8E005111F6 /* Sm4shGames */ = {
 			isa = PBXGroup;
 			children = (
+				1F192DD521D55F92005111F6 /* Info.plist */,
+				1F192DE021D575FD005111F6 /* SupportFiles */,
+				1F192DDD21D5752D005111F6 /* Controllers */,
+			);
+			path = Sm4shGames;
+			sourceTree = "<group>";
+		};
+		1F192DDD21D5752D005111F6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1F192DDE21D57541005111F6 /* HomeViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1F192DE021D575FD005111F6 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
 				1F192DC921D55F8E005111F6 /* AppDelegate.swift */,
 				1F192DCB21D55F8E005111F6 /* ViewController.swift */,
 				1F192DCD21D55F8E005111F6 /* Main.storyboard */,
 				1F192DD021D55F92005111F6 /* Assets.xcassets */,
 				1F192DD221D55F92005111F6 /* LaunchScreen.storyboard */,
-				1F192DD521D55F92005111F6 /* Info.plist */,
 			);
-			path = Sm4shGames;
+			path = SupportFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +156,7 @@
 			files = (
 				1F192DCC21D55F8E005111F6 /* ViewController.swift in Sources */,
 				1F192DCA21D55F8E005111F6 /* AppDelegate.swift in Sources */,
+				1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +303,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EYQ528NVX6;
 				INFOPLIST_FILE = Sm4shGames/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -300,6 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EYQ528NVX6;
 				INFOPLIST_FILE = Sm4shGames/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

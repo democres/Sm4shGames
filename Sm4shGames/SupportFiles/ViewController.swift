@@ -16,8 +16,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func getStaredBtn(_ sender: Any) {
-        var z = 1
-        
+        let VC = HomeViewController()
+        self.present(VC, animated: true, completion: nil)
     }
     
 }
