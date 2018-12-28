@@ -13,6 +13,10 @@
 		1F192DD121D55F92005111F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F192DD021D55F92005111F6 /* Assets.xcassets */; };
 		1F192DD421D55F92005111F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F192DD221D55F92005111F6 /* LaunchScreen.storyboard */; };
 		1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F192DDE21D57541005111F6 /* HomeViewController.swift */; };
+		1F85D1E021D6952700EBBA36 /* NewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1DF21D6952700EBBA36 /* NewCell.swift */; };
+		1F85D1E321D69AF000EBBA36 /* GUIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E221D69AF000EBBA36 /* GUIExtensions.swift */; };
+		1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E521D6AE4300EBBA36 /* Networking.swift */; };
+		33A37C848579CDDD547F55AB /* Pods_Sm4shGames.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,12 @@
 		1F192DD321D55F92005111F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F192DD521D55F92005111F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F192DDE21D57541005111F6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1F36F9BBC801F6B8EC4258F8 /* Pods-Sm4shGames.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sm4shGames.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames.debug.xcconfig"; sourceTree = "<group>"; };
+		1F85D1DF21D6952700EBBA36 /* NewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCell.swift; sourceTree = "<group>"; };
+		1F85D1E221D69AF000EBBA36 /* GUIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUIExtensions.swift; sourceTree = "<group>"; };
+		1F85D1E521D6AE4300EBBA36 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sm4shGames.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F88BEFA8B3EF791F7224F7AA /* Pods-Sm4shGames.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sm4shGames.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33A37C848579CDDD547F55AB /* Pods_Sm4shGames.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +53,8 @@
 			children = (
 				1F192DC821D55F8E005111F6 /* Sm4shGames */,
 				1F192DC721D55F8E005111F6 /* Products */,
+				B774B4DCB5DB260D6FD17D08 /* Pods */,
+				ACEDE3AB56E40834785497DF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,9 +69,10 @@
 		1F192DC821D55F8E005111F6 /* Sm4shGames */ = {
 			isa = PBXGroup;
 			children = (
+				1F85D1E421D6ACDB00EBBA36 /* Services */,
 				1F192DD521D55F92005111F6 /* Info.plist */,
 				1F192DE021D575FD005111F6 /* SupportFiles */,
-				1F192DDD21D5752D005111F6 /* Controllers */,
+				1F85D1DD21D694E600EBBA36 /* UserInterface */,
 			);
 			path = Sm4shGames;
 			sourceTree = "<group>";
@@ -83,6 +97,57 @@
 			path = SupportFiles;
 			sourceTree = "<group>";
 		};
+		1F85D1DD21D694E600EBBA36 /* UserInterface */ = {
+			isa = PBXGroup;
+			children = (
+				1F85D1E121D69ACF00EBBA36 /* Extensions */,
+				1F85D1DE21D6950900EBBA36 /* CollectionViewCells */,
+				1F192DDD21D5752D005111F6 /* Controllers */,
+			);
+			path = UserInterface;
+			sourceTree = "<group>";
+		};
+		1F85D1DE21D6950900EBBA36 /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				1F85D1DF21D6952700EBBA36 /* NewCell.swift */,
+			);
+			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
+		1F85D1E121D69ACF00EBBA36 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1F85D1E221D69AF000EBBA36 /* GUIExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1F85D1E421D6ACDB00EBBA36 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1F85D1E521D6AE4300EBBA36 /* Networking.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		ACEDE3AB56E40834785497DF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B774B4DCB5DB260D6FD17D08 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1F36F9BBC801F6B8EC4258F8 /* Pods-Sm4shGames.debug.xcconfig */,
+				F88BEFA8B3EF791F7224F7AA /* Pods-Sm4shGames.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -90,9 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F192DD821D55F92005111F6 /* Build configuration list for PBXNativeTarget "Sm4shGames" */;
 			buildPhases = (
+				E7E2A7EA5C431F71332E41DE /* [CP] Check Pods Manifest.lock */,
 				1F192DC221D55F8E005111F6 /* Sources */,
 				1F192DC321D55F8E005111F6 /* Frameworks */,
 				1F192DC421D55F8E005111F6 /* Resources */,
+				190AC3F337FBBF10A66DFCAF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,13 +216,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		190AC3F337FBBF10A66DFCAF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7E2A7EA5C431F71332E41DE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sm4shGames-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1F192DC221D55F8E005111F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1F192DCC21D55F8E005111F6 /* ViewController.swift in Sources */,
+				1F85D1E321D69AF000EBBA36 /* GUIExtensions.swift in Sources */,
 				1F192DCA21D55F8E005111F6 /* AppDelegate.swift in Sources */,
+				1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */,
+				1F85D1E021D6952700EBBA36 /* NewCell.swift in Sources */,
 				1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +417,7 @@
 		};
 		1F192DD921D55F92005111F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F36F9BBC801F6B8EC4258F8 /* Pods-Sm4shGames.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -318,6 +436,7 @@
 		};
 		1F192DDA21D55F92005111F6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F88BEFA8B3EF791F7224F7AA /* Pods-Sm4shGames.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
