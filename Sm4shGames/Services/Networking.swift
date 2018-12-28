@@ -38,6 +38,11 @@ class Networking {
 //            }
 //        }
     }
+    
+    func getArray(){
+//        https://parseapi.back4app.com/
+        
+    }
 
 
 }
