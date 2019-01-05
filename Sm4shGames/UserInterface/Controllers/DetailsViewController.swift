@@ -15,10 +15,12 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var gameImage: UIImageView!
     @IBOutlet weak var gameTitle: UILabel!
     @IBOutlet weak var gamePrice: UIButton!
+    @IBOutlet weak var detailTV: UITextView!
     
     var image : UIImage!
     var gameTitleText: String!
     var price: String!
+    var details: String!
     
     override func viewDidLoad()
     {
@@ -27,6 +29,7 @@ class DetailsViewController: UIViewController {
         gameImage.image = self.image
         gameTitle.text = gameTitleText
         gamePrice.setTitle(price, for: .normal)
+        detailTV.text = details
     }
     
 }

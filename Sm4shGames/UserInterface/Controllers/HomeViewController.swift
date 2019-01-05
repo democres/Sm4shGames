@@ -333,7 +333,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     VC.image = cell.imageView.image
                     VC.price = self.popularGames[indexPath.row].price
                     VC.gameTitleText = self.popularGames[indexPath.row].name
-                    
+                    VC.details = self.popularGames[indexPath.row].description
                     
                 }
             }

@@ -38,7 +38,8 @@ class Networking {
                                            genre: game["genre"] as? String,
                                            popular: game["popular"] as? Bool,
                                            updatedAt: game["updatedAt"] as? Date,
-                                           createdAt: game["createdAt"] as? Date)
+                                           createdAt: game["createdAt"] as? Date,
+                                           description: game["description"] as? String)
                         
                         
                         let kSQLiteDateFormat : String = "yyyy/MM/dd HH:mm:ss Z"
