@@ -21,7 +21,7 @@ class NewGamesCell: UICollectionViewCell {
         //        image.image = model.image!
         //        name.text = model.name.text!
         let image = UIImageView()
-        image.backgroundColor = .black
+        image.backgroundColor = .white
         image.layer.cornerRadius = 7
         image.layer.borderWidth = 1
         image.layer.borderColor = UIColor(rgb: 0xDB3069).cgColor
@@ -29,13 +29,14 @@ class NewGamesCell: UICollectionViewCell {
         self.imageView = image
         
         let name = UILabel()
-        name.text = "ASDAS"
+        name.text = "Title"
         name.font = UIFont.boldSystemFont(ofSize: 16.0)
         name.translatesAutoresizingMaskIntoConstraints = false
+        name.textAlignment = .center
         self.nameLbl = name
         
         let subtitle = UILabel()
-        subtitle.text = "ASDAS"
+        subtitle.text = "Subtitle"
         subtitle.translatesAutoresizingMaskIntoConstraints = false
         self.subtitleLbl = subtitle
         
@@ -76,7 +77,7 @@ class NewGamesCell: UICollectionViewCell {
         imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20)
         
-        nameLbl.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        nameLbl.widthAnchor.constraint(equalToConstant: 100).isActive = true
         nameLbl.heightAnchor.constraint(equalToConstant: 12).isActive = true
         nameLbl.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         nameLbl.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true

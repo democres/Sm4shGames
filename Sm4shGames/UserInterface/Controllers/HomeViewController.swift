@@ -21,7 +21,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     let collectionViewAIdentifier = "CollectionViewACell"
     let collectionViewBIdentifier = "CollectionViewBCell"
     
-    var gamesImages = [String]()
+    var gamesBuffer: Games!
+    var popularGames: [Game]!
+    var allGames: [Game]!
+    var newGames: [Game]!
     
     var titleLbl: UILabel = {
         let label = UILabel()
@@ -111,41 +114,54 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewDidLoad() {
         
+        self.view.backgroundColor = .white
+        
         var net = Networking()
-        net.ImageGet { (result) in
-            self.gamesImages = result
+        net.fetchGames { (result) in
+            self.gamesBuffer = Games(games: result)
+            self.popularGames = self.gamesBuffer.getPopularGames()
+            self.popularGamesCV.reloadData()
+            
+            self.newGames = self.gamesBuffer.getRecentGames()
             self.newGamesCV.reloadData()
         }
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 160, height: 180)
-        layout.scrollDirection = .horizontal
-    
-        self.view.backgroundColor = .white
+        let layoutNewCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layoutNewCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layoutNewCV.itemSize = CGSize(width: 160, height: 180)
+        layoutNewCV.scrollDirection = .horizontal
+        
+        let layoutPopularCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layoutPopularCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layoutPopularCV.itemSize = CGSize(width: 160, height: 180)
+        layoutPopularCV.scrollDirection = .horizontal
+        
+        let layoutAllGames: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layoutAllGames.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layoutAllGames.itemSize = CGSize(width: 160, height: 180)
+        layoutAllGames.scrollDirection = .vertical
         
         
-        newGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        newGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutNewCV)
         newGamesCV.dataSource = self
         newGamesCV.delegate = self
         newGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
         newGamesCV.backgroundColor = .white
         newGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        popularGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        popularGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutPopularCV)
         popularGamesCV.dataSource = self
         popularGamesCV.delegate = self
         popularGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
-        popularGamesCV.backgroundColor = UIColor.yellow
+        popularGamesCV.backgroundColor = .white
         popularGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
         
-        allGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        allGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutAllGames)
         allGamesCV.dataSource = self
         allGamesCV.delegate = self
         allGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
-        allGamesCV.backgroundColor = UIColor.cyan
+        allGamesCV.backgroundColor = .white
         allGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
         
@@ -176,17 +192,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
-    
-    
-    func loadImages(){
-        
-        
-    }
-    
-    
-    
     
     func setupConstraints(){
         
@@ -255,14 +261,53 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if collectionView == self.popularGamesCV {
+            if self.popularGames != nil {
+                return self.popularGames.count
+            }
+        }
+        
+        if collectionView == self.newGamesCV {
+            if self.newGames != nil {
+                return self.newGames.count
+            }
+        }
+        
         return 100
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
         
-        if self.gamesImages.count > 0 && indexPath.row < self.gamesImages.count {
-            myCell.imageView.downloaded(from: self.gamesImages[indexPath.row])
+        if collectionView == self.popularGamesCV {
+            if self.popularGames != nil {
+                if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
+                    
+                    if let image = self.popularGames[indexPath.row].imageUrl {
+                        myCell.imageView.downloaded(from: image)
+                    }
+                    if let name = self.popularGames[indexPath.row].name {
+                        myCell.nameLbl.text = name
+                    }
+
+                }
+            }
+        }
+        
+        if collectionView == self.newGamesCV {
+            if self.newGames != nil {
+                if self.newGames.count > 0 && indexPath.row < self.newGames.count {
+                    
+                    if let image = self.newGames[indexPath.row].imageUrl {
+                        myCell.imageView.downloaded(from: image)
+                    }
+                    if let name = self.newGames[indexPath.row].name {
+                        myCell.nameLbl.text = name
+                    }
+                    
+                }
+            }
         }
         
         return myCell
