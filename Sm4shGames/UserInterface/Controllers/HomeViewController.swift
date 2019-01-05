@@ -120,10 +120,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         net.fetchGames { (result) in
             self.gamesBuffer = Games(games: result)
             self.popularGames = self.gamesBuffer.getPopularGames()
+            self.popularLbl.text = "Popular (\(self.popularGames.count))"
             self.popularGamesCV.reloadData()
             
             self.newGames = self.gamesBuffer.getRecentGames()
+            self.newLbl.text = "New (\(self.newGames.count))"
             self.newGamesCV.reloadData()
+            
+            self.allGames = self.gamesBuffer.games
+            self.allLbl.text = "New (\(self.allGames.count))"
+            self.allGamesCV.reloadData()
         }
         
         let layoutNewCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()

@@ -29,14 +29,14 @@ class NewGamesCell: UICollectionViewCell {
         self.imageView = image
         
         let name = UILabel()
-        name.text = "Title"
+        name.text = "Loading..."
         name.font = UIFont.boldSystemFont(ofSize: 16.0)
         name.translatesAutoresizingMaskIntoConstraints = false
         name.textAlignment = .center
         self.nameLbl = name
         
         let subtitle = UILabel()
-        subtitle.text = "Subtitle"
+        subtitle.text = "Please Wait"
         subtitle.translatesAutoresizingMaskIntoConstraints = false
         self.subtitleLbl = subtitle
         
