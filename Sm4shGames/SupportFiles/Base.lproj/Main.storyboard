@@ -105,7 +105,7 @@ is worth gaming</string>
         <!--View Controller-->
         <scene sceneID="TM0-4k-Fd4">
             <objects>
-                <viewController modalTransitionStyle="partialCurl" id="uZ7-ob-Qfx" customClass="ViewController" customModule="Sm4shGames" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalTransitionStyle="flipHorizontal" id="uZ7-ob-Qfx" customClass="ViewController" customModule="Sm4shGames" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kuz-0b-V23">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

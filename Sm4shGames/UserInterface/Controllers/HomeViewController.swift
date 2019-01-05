@@ -9,16 +9,19 @@
 import Foundation
 import UIKit
 
+
 class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var scrollView: UIScrollView!
     
-    var collectionViewA: UICollectionView!
-    var collectionViewB: UICollectionView!
-    var collectionViewC: UICollectionView!
+    var newGamesCV: UICollectionView!
+    var popularGamesCV: UICollectionView!
+    var allGamesCV: UICollectionView!
     
     let collectionViewAIdentifier = "CollectionViewACell"
     let collectionViewBIdentifier = "CollectionViewBCell"
+    
+    var gamesImages = [String]()
     
     var titleLbl: UILabel = {
         let label = UILabel()
@@ -108,6 +111,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewDidLoad() {
         
+        var net = Networking()
+        net.ImageGet { (result) in
+            self.gamesImages = result
+            self.newGamesCV.reloadData()
+        }
+        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: 160, height: 180)
@@ -116,29 +125,28 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.view.backgroundColor = .white
         
         
-        collectionViewA = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionViewA.dataSource = self
-        collectionViewA.delegate = self
-        collectionViewA.register(NewCell.self, forCellWithReuseIdentifier: "MyCell")
-        collectionViewA.backgroundColor = .white
-        collectionViewA.translatesAutoresizingMaskIntoConstraints = false
+        newGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        newGamesCV.dataSource = self
+        newGamesCV.delegate = self
+        newGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
+        newGamesCV.backgroundColor = .white
+        newGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
         
-        collectionViewB = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionViewB.dataSource = self
-        collectionViewB.delegate = self
-        collectionViewB.register(NewCell.self, forCellWithReuseIdentifier: "MyCell")
-        collectionViewB.backgroundColor = UIColor.yellow
-        collectionViewB.translatesAutoresizingMaskIntoConstraints = false
+        popularGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        popularGamesCV.dataSource = self
+        popularGamesCV.delegate = self
+        popularGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
+        popularGamesCV.backgroundColor = UIColor.yellow
+        popularGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
         
-        collectionViewC = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionViewC.dataSource = self
-        collectionViewC.delegate = self
-        collectionViewC.register(NewCell.self, forCellWithReuseIdentifier: "MyCell")
-        collectionViewC.backgroundColor = UIColor.cyan
-        collectionViewC.translatesAutoresizingMaskIntoConstraints = false
-        
+        allGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        allGamesCV.dataSource = self
+        allGamesCV.delegate = self
+        allGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
+        allGamesCV.backgroundColor = UIColor.cyan
+        allGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
         
         let screensize: CGRect = UIScreen.main.bounds
@@ -155,13 +163,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         scrollView.addSubview(dummyBtn)
         scrollView.addSubview(newLbl)
         scrollView.addSubview(line1)
-        scrollView.addSubview(collectionViewA)
+        scrollView.addSubview(newGamesCV)
         scrollView.addSubview(popularLbl)
         scrollView.addSubview(line2)
-        scrollView.addSubview(collectionViewB)
+        scrollView.addSubview(popularGamesCV)
         scrollView.addSubview(allLbl)
         scrollView.addSubview(line3)
-        scrollView.addSubview(collectionViewC)
+        scrollView.addSubview(allGamesCV)
         
         setupConstraints()
     }
@@ -170,6 +178,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         super.viewWillAppear(animated)
         
     }
+    
+    
+    func loadImages(){
+        
+        
+    }
+    
     
     
     
@@ -200,40 +215,40 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.line1.leftAnchor.constraint(equalTo: self.newLbl.rightAnchor, constant: 0).isActive = true
         self.line1.centerYAnchor.constraint(equalTo: self.newLbl.centerYAnchor, constant: 0).isActive = true
         
-        self.collectionViewA.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.collectionViewA.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.collectionViewA.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.collectionViewA.topAnchor.constraint(equalTo: self.newLbl.bottomAnchor, constant: 20).isActive = true
+        self.newGamesCV.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.newGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.newGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.newGamesCV.topAnchor.constraint(equalTo: self.newLbl.bottomAnchor, constant: 20).isActive = true
         
         self.popularLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
         self.popularLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.popularLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.popularLbl.topAnchor.constraint(equalTo: self.collectionViewA.bottomAnchor, constant: 20).isActive = true
+        self.popularLbl.topAnchor.constraint(equalTo: self.newGamesCV.bottomAnchor, constant: 20).isActive = true
         
         self.line2.widthAnchor.constraint(equalToConstant: 300).isActive = true
         self.line2.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.line2.leftAnchor.constraint(equalTo: self.popularLbl.rightAnchor, constant: 0).isActive = true
         self.line2.centerYAnchor.constraint(equalTo: self.popularLbl.centerYAnchor, constant: 0).isActive = true
         
-        self.collectionViewB.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.collectionViewB.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.collectionViewB.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.collectionViewB.topAnchor.constraint(equalTo: self.popularLbl.bottomAnchor, constant: 20).isActive = true
+        self.popularGamesCV.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.popularGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.popularGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.popularGamesCV.topAnchor.constraint(equalTo: self.popularLbl.bottomAnchor, constant: 20).isActive = true
         
         self.allLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
         self.allLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.allLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.allLbl.topAnchor.constraint(equalTo: self.collectionViewB.bottomAnchor, constant: 20).isActive = true
+        self.allLbl.topAnchor.constraint(equalTo: self.popularGamesCV.bottomAnchor, constant: 20).isActive = true
         
         self.line3.widthAnchor.constraint(equalToConstant: 300).isActive = true
         self.line3.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.line3.leftAnchor.constraint(equalTo: self.allLbl.rightAnchor, constant: 0).isActive = true
         self.line3.centerYAnchor.constraint(equalTo: self.allLbl.centerYAnchor, constant: 0).isActive = true
         
-        self.collectionViewC.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.collectionViewC.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.collectionViewC.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.collectionViewC.topAnchor.constraint(equalTo: self.allLbl.bottomAnchor, constant: 20).isActive = true
+        self.allGamesCV.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.allGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.allGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.allGamesCV.topAnchor.constraint(equalTo: self.allLbl.bottomAnchor, constant: 20).isActive = true
         
     }
     
@@ -244,12 +259,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewCell
-        myCell.configure(with: nil)
+        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+        
+        if self.gamesImages.count > 0 && indexPath.row < self.gamesImages.count {
+            myCell.imageView.downloaded(from: self.gamesImages[indexPath.row])
+        }
+        
         return myCell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: IndexPath)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
         print("User tapped on item \(indexPath.row)")
     }
