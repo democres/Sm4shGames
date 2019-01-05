@@ -105,7 +105,7 @@ is worth gaming</string>
         <!--Details View Controller-->
         <scene sceneID="OqA-WL-VLe">
             <objects>
-                <viewController id="pbd-oN-lA7" customClass="DetailsViewController" customModule="Sm4shGames" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsViewController" id="pbd-oN-lA7" customClass="DetailsViewController" customModule="Sm4shGames" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sqj-i4-9XB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,12 +118,12 @@ is worth gaming</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EPk-Sn-z8Y">
-                                <rect key="frame" x="16" y="130" width="149" height="131"/>
+                                <rect key="frame" x="16" y="130" width="146" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxO-J6-K5g">
-                                <rect key="frame" x="213" y="197" width="42" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGc-5o-qXm">
+                                <rect key="frame" x="200" y="179" width="42" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="PRICE"/>
                             </button>
@@ -131,6 +131,11 @@ is worth gaming</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5La-bS-Gqh"/>
                     </view>
+                    <connections>
+                        <outlet property="gameImage" destination="EPk-Sn-z8Y" id="QK6-U6-YlD"/>
+                        <outlet property="gamePrice" destination="pGc-5o-qXm" id="LSH-PE-7rH"/>
+                        <outlet property="gameTitle" destination="D7F-81-ZHG" id="g9H-vo-P9w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGh-7r-VbL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

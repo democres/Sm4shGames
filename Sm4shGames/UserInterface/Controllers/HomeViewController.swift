@@ -321,7 +321,28 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        print("User tapped on item \(indexPath.row)")
+
+        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let VC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        
+        if collectionView == self.popularGamesCV {
+            if self.popularGames != nil {
+                if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
+                    
+                    let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
+                    VC.image = cell.imageView.image
+                    VC.price = self.popularGames[indexPath.row].price
+                    VC.gameTitleText = self.popularGames[indexPath.row].name
+                    
+                    
+                }
+            }
+        }
+        
+        self.present(VC, animated: false, completion: nil)
+        
+        
+        
     }
     
     

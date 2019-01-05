@@ -12,7 +12,21 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
+    @IBOutlet weak var gameImage: UIImageView!
+    @IBOutlet weak var gameTitle: UILabel!
+    @IBOutlet weak var gamePrice: UIButton!
     
+    var image : UIImage!
+    var gameTitleText: String!
+    var price: String!
     
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        
+        gameImage.image = self.image
+        gameTitle.text = gameTitleText
+        gamePrice.setTitle(price, for: .normal)
+    }
     
 }
