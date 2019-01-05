@@ -17,6 +17,7 @@
 		1F85D1E321D69AF000EBBA36 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E221D69AF000EBBA36 /* Extensions.swift */; };
 		1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E521D6AE4300EBBA36 /* Networking.swift */; };
 		33A37C848579CDDD547F55AB /* Pods_Sm4shGames.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */; };
+		EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2AE21E0F0B600D2C29B /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		1F85D1E221D69AF000EBBA36 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1F85D1E521D6AE4300EBBA36 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sm4shGames.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF5ED2AE21E0F0B600D2C29B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		F88BEFA8B3EF791F7224F7AA /* Pods-Sm4shGames.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sm4shGames.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +71,7 @@
 		1F192DC821D55F8E005111F6 /* Sm4shGames */ = {
 			isa = PBXGroup;
 			children = (
+				EF5ED2AD21E0F09400D2C29B /* Models */,
 				1F85D1E421D6ACDB00EBBA36 /* Services */,
 				1F192DD521D55F92005111F6 /* Info.plist */,
 				1F192DE021D575FD005111F6 /* SupportFiles */,
@@ -146,6 +149,14 @@
 				F88BEFA8B3EF791F7224F7AA /* Pods-Sm4shGames.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EF5ED2AD21E0F09400D2C29B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EF5ED2AE21E0F0B600D2C29B /* Game.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +284,7 @@
 				1F192DCC21D55F8E005111F6 /* ViewController.swift in Sources */,
 				1F85D1E321D69AF000EBBA36 /* Extensions.swift in Sources */,
 				1F192DCA21D55F8E005111F6 /* AppDelegate.swift in Sources */,
+				EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */,
 				1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */,
 				1F85D1E021D6952700EBBA36 /* NewGamesCell.swift in Sources */,
 				1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */,
