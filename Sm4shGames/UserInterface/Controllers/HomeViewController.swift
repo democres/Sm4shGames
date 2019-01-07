@@ -10,21 +10,26 @@ import Foundation
 import UIKit
 
 
+struct Constants {
+    static let screenWidth = UIScreen.main.bounds.width
+    static let screenHeight = UIScreen.main.bounds.height
+}
+
 class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var scrollView: UIScrollView!
     
+    var gameBrandCV: UICollectionView!
     var newGamesCV: UICollectionView!
     var popularGamesCV: UICollectionView!
     var allGamesCV: UICollectionView!
-    
-    let collectionViewAIdentifier = "CollectionViewACell"
-    let collectionViewBIdentifier = "CollectionViewBCell"
-    
+
     var gamesBuffer: Games!
+    
     var popularGames: [Game]!
     var allGames: [Game]!
     var newGames: [Game]!
+    var gameBrands: [String]!
     
     var titleLbl: UILabel = {
         let label = UILabel()
@@ -116,9 +121,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         self.view.backgroundColor = .white
         
-        var net = Networking()
+        let net = Networking()
         net.fetchGames { (result) in
+            
             self.gamesBuffer = Games(games: result)
+            
             self.popularGames = self.gamesBuffer.getPopularGames()
             self.popularLbl.text = "Popular (\(self.popularGames.count))"
             self.popularGamesCV.reloadData()
@@ -130,7 +137,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             self.allGames = self.gamesBuffer.games
             self.allLbl.text = "New (\(self.allGames.count))"
             self.allGamesCV.reloadData()
+            
+            self.gameBrands = self.gamesBuffer.getAllBrands()
         }
+
+        let layoutBrandCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layoutBrandCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layoutBrandCV.itemSize = CGSize(width: 120, height: 80)
+        layoutBrandCV.scrollDirection = .horizontal
         
         let layoutNewCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layoutNewCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
@@ -147,6 +161,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         layoutAllGames.itemSize = CGSize(width: 160, height: 180)
         layoutAllGames.scrollDirection = .vertical
         
+        gameBrandCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutBrandCV)
+        gameBrandCV.dataSource = self
+        gameBrandCV.delegate = self
+        gameBrandCV.register(GameBrandCell.self, forCellWithReuseIdentifier: "MyCell")
+        gameBrandCV.backgroundColor = .white
+        gameBrandCV.translatesAutoresizingMaskIntoConstraints = false
         
         newGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutNewCV)
         newGamesCV.dataSource = self
@@ -166,16 +186,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         allGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutAllGames)
         allGamesCV.dataSource = self
         allGamesCV.delegate = self
-        allGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
+        allGamesCV.register(GameBrandCell.self, forCellWithReuseIdentifier: "MyCell")
         allGamesCV.backgroundColor = .white
         allGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
         
-        let screensize: CGRect = UIScreen.main.bounds
-        let screenWidth = screensize.width
-        let screenHeight = screensize.height
-        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-        scrollView.contentSize = CGSize(width: screenWidth, height: 1200)
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: Constants.screenWidth, height: Constants.screenHeight))
+        scrollView.contentSize = CGSize(width: Constants.screenWidth, height: 1200)
 
         
         self.view.addSubview(scrollView)
@@ -183,6 +200,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         scrollView.addSubview(titleLbl)
         scrollView.addSubview(allBtn)
         scrollView.addSubview(dummyBtn)
+        scrollView.addSubview(gameBrandCV)
         scrollView.addSubview(newLbl)
         scrollView.addSubview(line1)
         scrollView.addSubview(newGamesCV)
@@ -198,73 +216,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    func setupConstraints(){
-        
-        self.titleLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.titleLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.titleLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.titleLbl.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 30).isActive = true
-        
-        self.allBtn.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.allBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.allBtn.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.allBtn.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
-        
-        self.dummyBtn.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.dummyBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.dummyBtn.centerXAnchor.constraint(equalTo: self.allBtn.rightAnchor, constant: 80).isActive = true
-        self.dummyBtn.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
-        
-        self.newLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.newLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.newLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.newLbl.topAnchor.constraint(equalTo: self.allBtn.bottomAnchor, constant: 20).isActive = true
-        
-        self.line1.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.line1.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.line1.leftAnchor.constraint(equalTo: self.newLbl.rightAnchor, constant: 0).isActive = true
-        self.line1.centerYAnchor.constraint(equalTo: self.newLbl.centerYAnchor, constant: 0).isActive = true
-        
-        self.newGamesCV.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.newGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.newGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.newGamesCV.topAnchor.constraint(equalTo: self.newLbl.bottomAnchor, constant: 20).isActive = true
-        
-        self.popularLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.popularLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.popularLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.popularLbl.topAnchor.constraint(equalTo: self.newGamesCV.bottomAnchor, constant: 20).isActive = true
-        
-        self.line2.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.line2.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.line2.leftAnchor.constraint(equalTo: self.popularLbl.rightAnchor, constant: 0).isActive = true
-        self.line2.centerYAnchor.constraint(equalTo: self.popularLbl.centerYAnchor, constant: 0).isActive = true
-        
-        self.popularGamesCV.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.popularGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.popularGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.popularGamesCV.topAnchor.constraint(equalTo: self.popularLbl.bottomAnchor, constant: 20).isActive = true
-        
-        self.allLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.allLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.allLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 100).isActive = true
-        self.allLbl.topAnchor.constraint(equalTo: self.popularGamesCV.bottomAnchor, constant: 20).isActive = true
-        
-        self.line3.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.line3.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.line3.leftAnchor.constraint(equalTo: self.allLbl.rightAnchor, constant: 0).isActive = true
-        self.line3.centerYAnchor.constraint(equalTo: self.allLbl.centerYAnchor, constant: 0).isActive = true
-        
-        self.allGamesCV.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.allGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        self.allGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.allGamesCV.topAnchor.constraint(equalTo: self.allLbl.bottomAnchor, constant: 20).isActive = true
         
     }
     
     
+    
+    // MARK: CollectionView Delegates
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -284,17 +241,33 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+        
+        if collectionView == self.gameBrandCV {
+            if self.popularGames != nil {
+                if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
+                    
+                    let gameBrandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! GameBrandCell
+                    
+                    gameBrandCell.button.setTitle("AAAA", for: .normal)
+                    gameBrandCell.button.backgroundColor = .green
+                    return gameBrandCell
+                    
+                }
+            }
+        }
         
         if collectionView == self.popularGamesCV {
             if self.popularGames != nil {
                 if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
                     
+                    
+                    let popularGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+                    
                     if let image = self.popularGames[indexPath.row].imageUrl {
-                        myCell.imageView.downloaded(from: image)
+                        popularGamesCell.imageView.downloaded(from: image)
                     }
                     if let name = self.popularGames[indexPath.row].name {
-                        myCell.nameLbl.text = name
+                        popularGamesCell.nameLbl.text = name
                     }
 
                 }
@@ -305,18 +278,32 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             if self.newGames != nil {
                 if self.newGames.count > 0 && indexPath.row < self.newGames.count {
                     
+                    let newGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+                    
                     if let image = self.newGames[indexPath.row].imageUrl {
-                        myCell.imageView.downloaded(from: image)
+                        newGamesCell.imageView.downloaded(from: image)
                     }
                     if let name = self.newGames[indexPath.row].name {
-                        myCell.nameLbl.text = name
+                        newGamesCell.nameLbl.text = name
                     }
                     
                 }
             }
         }
         
-        return myCell
+        if collectionView == self.allGamesCV {
+            if self.newGames != nil {
+                if self.newGames.count > 0 && indexPath.row < self.newGames.count {
+                    
+                    let allGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! GameBrandCell
+                    
+                    allGamesCell.button.setTitle("AAAA", for: .normal)
+                    return allGamesCell
+                }
+            }
+        }
+        
+        return collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) //return default
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
@@ -345,11 +332,86 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
+    
+    //MARK: Constraints
+    
+    func setupConstraints(){
+        
+        self.titleLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        self.titleLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.titleLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
+        self.titleLbl.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 30).isActive = true
+        
+        self.gameBrandCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+        self.gameBrandCV.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        self.gameBrandCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.gameBrandCV.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
+        
+        self.allBtn.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        self.allBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.allBtn.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
+        self.allBtn.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
+        
+        self.dummyBtn.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        self.dummyBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.dummyBtn.centerXAnchor.constraint(equalTo: self.allBtn.rightAnchor, constant: 80).isActive = true
+        self.dummyBtn.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
+        
+        self.newLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        self.newLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.newLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
+        self.newLbl.topAnchor.constraint(equalTo: self.allBtn.bottomAnchor, constant: 20).isActive = true
+        
+        self.line1.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.line1.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.line1.leftAnchor.constraint(equalTo: self.newLbl.rightAnchor, constant: 0).isActive = true
+        self.line1.centerYAnchor.constraint(equalTo: self.newLbl.centerYAnchor, constant: 0).isActive = true
+        
+        self.newGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+        self.newGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.newGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.newGamesCV.topAnchor.constraint(equalTo: self.newLbl.bottomAnchor, constant: 20).isActive = true
+        
+        self.popularLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        self.popularLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.popularLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
+        self.popularLbl.topAnchor.constraint(equalTo: self.newGamesCV.bottomAnchor, constant: 20).isActive = true
+        
+        self.line2.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.line2.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.line2.leftAnchor.constraint(equalTo: self.popularLbl.rightAnchor, constant: 0).isActive = true
+        self.line2.centerYAnchor.constraint(equalTo: self.popularLbl.centerYAnchor, constant: 0).isActive = true
+        
+        self.popularGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+        self.popularGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.popularGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.popularGamesCV.topAnchor.constraint(equalTo: self.popularLbl.bottomAnchor, constant: 20).isActive = true
+        
+        self.allLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        self.allLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.allLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
+        self.allLbl.topAnchor.constraint(equalTo: self.popularGamesCV.bottomAnchor, constant: 20).isActive = true
+        
+        self.line3.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.line3.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.line3.leftAnchor.constraint(equalTo: self.allLbl.rightAnchor, constant: 0).isActive = true
+        self.line3.centerYAnchor.constraint(equalTo: self.allLbl.centerYAnchor, constant: 0).isActive = true
+        
+        self.allGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+        self.allGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.allGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.allGamesCV.topAnchor.constraint(equalTo: self.allLbl.bottomAnchor, constant: 20).isActive = true
+        
+    }
+    
+    
     
 }
 

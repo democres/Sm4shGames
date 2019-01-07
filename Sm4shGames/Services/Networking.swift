@@ -30,9 +30,9 @@ class Networking {
                     var games = [Game]()
                     for game in gamesJson {
                         
-                        var gameAux = Game(objectId: game["objectId"] as? String,
+                        let gameAux = Game(objectId: game["objectId"] as? String,
                                            name: game["name"] as? String,
-                                           brand: game["brand"] as? String,
+                                           brand: game["universe"] as? String,
                                            price: game["price"] as? String,
                                            imageUrl: game["imageURL"] as? String,
                                            genre: game["genre"] as? String,

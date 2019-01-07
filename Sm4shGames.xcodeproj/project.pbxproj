@@ -20,6 +20,7 @@
 		EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2AE21E0F0B600D2C29B /* Game.swift */; };
 		EF5ED2B221E0F58400D2C29B /* Games.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2B121E0F58400D2C29B /* Games.swift */; };
 		EF5ED2B421E10D4E00D2C29B /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2B321E10D4E00D2C29B /* DetailsViewController.swift */; };
+		EF946F5321E40456001B82BB /* GameBrandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF946F5221E40456001B82BB /* GameBrandCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		EF5ED2AE21E0F0B600D2C29B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		EF5ED2B121E0F58400D2C29B /* Games.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Games.swift; sourceTree = "<group>"; };
 		EF5ED2B321E10D4E00D2C29B /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		EF946F5221E40456001B82BB /* GameBrandCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBrandCell.swift; sourceTree = "<group>"; };
 		F88BEFA8B3EF791F7224F7AA /* Pods-Sm4shGames.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sm4shGames.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				1F85D1DF21D6952700EBBA36 /* NewGamesCell.swift */,
+				EF946F5221E40456001B82BB /* GameBrandCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */,
 				1F85D1E021D6952700EBBA36 /* NewGamesCell.swift in Sources */,
 				1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */,
+				EF946F5321E40456001B82BB /* GameBrandCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

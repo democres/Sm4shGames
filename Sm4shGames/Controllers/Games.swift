@@ -23,7 +23,7 @@ class Games {
     func getRecentGames() -> [Game] {
 
         var sortedByDate = [Game]()
-        for game in games {
+        for _ in games {
             sortedByDate = games.filter({ $0.updatedAt != nil})
         }
         sortedByDate.sorted(by: {
@@ -35,6 +35,22 @@ class Games {
         }
         
         return games
+        
+    }
+    
+    func getAllBrands() -> [String] {
+        
+        var brands = [String]()
+        
+        for game in self.games {
+            guard let brand = game.brand else {
+                print("No brand in game")
+                continue
+            }
+            brands.append(brand)
+        }
+        
+        return brands
         
     }
     
