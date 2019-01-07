@@ -12,9 +12,9 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    @IBOutlet weak var gameImage: UIImageView!
-    @IBOutlet weak var gameTitle: UILabel!
-    @IBOutlet weak var gamePrice: UIButton!
+    @IBOutlet weak var gameImageIV: UIImageView!
+    @IBOutlet weak var gameTitleLbl: UILabel!
+    @IBOutlet weak var gamePriceBtn: UIButton!
     @IBOutlet weak var detailTV: UITextView!
     
     var image : UIImage!
@@ -26,9 +26,11 @@ class DetailsViewController: UIViewController {
     {
         super.viewDidLoad()
         
-        gameImage.image = self.image
-        gameTitle.text = gameTitleText
-        gamePrice.setTitle(price, for: .normal)
+        gamePriceBtn.layer.cornerRadius = 7 // Add corner radius to btn like the sketch
+        
+        gameImageIV.image = self.image
+        gameTitleLbl.text = gameTitleText
+        gamePriceBtn.setTitle(price, for: .normal)
         detailTV.text = details
     }
     

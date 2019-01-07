@@ -323,23 +323,23 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     {
 
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let VC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
         
         if collectionView == self.popularGamesCV {
             if self.popularGames != nil {
                 if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
                     
                     let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
-                    VC.image = cell.imageView.image
-                    VC.price = self.popularGames[indexPath.row].price
-                    VC.gameTitleText = self.popularGames[indexPath.row].name
-                    VC.details = self.popularGames[indexPath.row].description
+                    DetailsVC.image = cell.imageView.image
+                    DetailsVC.price = self.popularGames[indexPath.row].price
+                    DetailsVC.gameTitleText = self.popularGames[indexPath.row].name
+                    DetailsVC.details = self.popularGames[indexPath.row].description
                     
                 }
             }
         }
         
-        self.present(VC, animated: false, completion: nil)
+        self.present(DetailsVC, animated: false, completion: nil)
         
         
         
