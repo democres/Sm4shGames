@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -17,6 +18,8 @@ class ViewController: UIViewController {
 
     @IBAction func getStaredBtn(_ sender: Any) {
         let VC = HomeViewController()
+        let defaults = UserDefaults.standard
+        defaults.set("Launched", forKey: "appDidLaunch")
         self.present(VC, animated: true, completion: nil)
     }
     

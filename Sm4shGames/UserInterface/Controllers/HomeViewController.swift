@@ -97,7 +97,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     var selectedBrand = "All"
-    
+
     override func viewDidLoad() {
         
         self.view.backgroundColor = .white
@@ -172,6 +172,26 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         setupConstraints()
     }
     
+//    func showCacheGames(){
+//
+//        self.popularGames = self.gamesBuffer.getPopularGames()
+//        self.popularLbl.text = "Popular (\(self.popularGames.count))"
+//        self.popularGamesCV.reloadData()
+//
+//        self.newGames = self.gamesBuffer.getRecentGames()
+//        self.newLbl.text = "New (\(self.newGames.count))"
+//        self.newGamesCV.reloadData()
+//
+//        self.allGames = self.gamesBuffer.games
+//        self.allLbl.text = "All (\(self.allGames.count))"
+//        self.allGamesCV.reloadData()
+//
+//        self.gameBrands = self.gamesBuffer.getAllBrands()
+//        self.gameBrandCV.reloadData()
+//
+//    }
+    
+    
     func showGames(){
         
         let net = Networking()
@@ -193,6 +213,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             
             self.gameBrands = self.gamesBuffer.getAllBrands()
             self.gameBrandCV.reloadData()
+
         }
         
     }
