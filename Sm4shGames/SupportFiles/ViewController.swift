@@ -17,7 +17,6 @@ class ViewController: UIViewController {
 
     @IBAction func getStaredBtn(_ sender: Any) {
         let VC = HomeViewController()
-        VC.modalTransitionStyle = .partialCurl
         self.present(VC, animated: true, completion: nil)
     }
     

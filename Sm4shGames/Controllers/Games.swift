@@ -20,6 +20,10 @@ class Games {
         return self.games.filter({ $0.popular == true })
     }
     
+    func getGamesByBrand(brand: String) -> [Game] {
+        return self.games.filter({ $0.brand == brand })
+    }
+    
     func getRecentGames() -> [Game] {
 
         var sortedByDate = [Game]()
@@ -30,7 +34,7 @@ class Games {
             $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
         })
         
-        if sortedByDate.count > 1 {
+        if sortedByDate.count >= 5 {
             return Array(sortedByDate[0 ..< 5])
         }
         

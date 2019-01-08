@@ -96,32 +96,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }()
     
     
-    var selectedBrand = ""
+    var selectedBrand = "All"
     
     override func viewDidLoad() {
         
         self.view.backgroundColor = .white
         
-        let net = Networking()
-        net.fetchGames { (result) in
-            
-            self.gamesBuffer = Games(games: result)
-            
-            self.popularGames = self.gamesBuffer.getPopularGames()
-            self.popularLbl.text = "Popular (\(self.popularGames.count))"
-            self.popularGamesCV.reloadData()
-            
-            self.newGames = self.gamesBuffer.getRecentGames()
-            self.newLbl.text = "New (\(self.newGames.count))"
-            self.newGamesCV.reloadData()
-            
-            self.allGames = self.gamesBuffer.games
-            self.allLbl.text = "All (\(self.allGames.count))"
-            self.allGamesCV.reloadData()
-            
-            self.gameBrands = self.gamesBuffer.getAllBrands()
-            self.gameBrandCV.reloadData()
-        }
+        showGames()
 
         let layoutBrandCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layoutBrandCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
@@ -171,10 +152,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         allGamesCV.backgroundColor = .white
         allGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
-        
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: Constants.screenWidth, height: Constants.screenHeight))
         scrollView.contentSize = CGSize(width: Constants.screenWidth, height: 1200)
-
         
         self.view.addSubview(scrollView)
         
@@ -192,6 +171,57 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         setupConstraints()
     }
+    
+    func showGames(){
+        
+        let net = Networking()
+        net.fetchGames { (result) in
+            
+            self.gamesBuffer = Games(games: result)
+            
+            self.popularGames = self.gamesBuffer.getPopularGames()
+            self.popularLbl.text = "Popular (\(self.popularGames.count))"
+            self.popularGamesCV.reloadData()
+            
+            self.newGames = self.gamesBuffer.getRecentGames()
+            self.newLbl.text = "New (\(self.newGames.count))"
+            self.newGamesCV.reloadData()
+            
+            self.allGames = self.gamesBuffer.games
+            self.allLbl.text = "All (\(self.allGames.count))"
+            self.allGamesCV.reloadData()
+            
+            self.gameBrands = self.gamesBuffer.getAllBrands()
+            self.gameBrandCV.reloadData()
+        }
+        
+    }
+    
+    
+    func showGamesByBrand(brand: String){
+        
+        if brand == "All" {
+            showGames()
+            return
+        }
+        
+        var gamesBufferAux = Games(games: self.gamesBuffer.getGamesByBrand(brand: brand))
+        
+        self.popularGames = gamesBufferAux.getPopularGames()
+        self.popularLbl.text = "Popular (\(self.popularGames.count))"
+        self.popularGamesCV.reloadData()
+        
+        self.newGames = gamesBufferAux.getRecentGames()
+        self.newLbl.text = "New (\(self.newGames.count))"
+        self.newGamesCV.reloadData()
+        
+        self.allGames = gamesBufferAux.games
+        self.allLbl.text = "All (\(self.allGames.count))"
+        self.allGamesCV.reloadData()
+        
+    }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -241,6 +271,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     let gameBrandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! GameBrandCell
                     
                     gameBrandCell.button.setTitle(self.gameBrands[indexPath.row], for: .normal)
+                    if self.gameBrands[indexPath.row] == self.selectedBrand {
+                        gameBrandCell.button.backgroundColor = UIColor(rgb: 0xDB3069)
+                        gameBrandCell.button.setTitleColor(.white, for: .normal)
+                    } else {
+                        gameBrandCell.button.backgroundColor = .white
+                        gameBrandCell.button.setTitleColor(UIColor(rgb: 0xDB3069), for: .normal)
+                    }
                     
                     return gameBrandCell
                     
@@ -324,8 +361,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     self.selectedBrand = cell.button.titleLabel!.text!
                     cell.button.backgroundColor = UIColor(rgb: 0xDB3069)
                     cell.button.setTitleColor(.white, for: .normal)
-                    self.gameBrandCV.reloadItems(at: [indexPath])
-                    
+                    showGamesByBrand(brand: self.selectedBrand)
+                    self.gameBrandCV.reloadData()
+                    self.gameBrandCV.layoutSubviews()
                     return
                 }
             }
@@ -374,11 +412,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
         
         DetailsVC.image = cell.imageView.image
-        DetailsVC.price = dataArray[indexPath.row].price
+        DetailsVC.price = "$" + dataArray[indexPath.row].price!
         DetailsVC.gameTitleText = dataArray[indexPath.row].name
         DetailsVC.details = dataArray[indexPath.row].description
-        DetailsVC.downloads = dataArray[indexPath.row].downloads
-        DetailsVC.skuNumber = dataArray[indexPath.row].SKU
+        DetailsVC.downloads = dataArray[indexPath.row].downloads! + " downloads"
+        DetailsVC.skuNumber = "SKU: " + dataArray[indexPath.row].SKU!
         
         self.present(DetailsVC, animated: false, completion: nil)
     }
