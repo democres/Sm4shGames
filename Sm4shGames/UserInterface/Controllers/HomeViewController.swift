@@ -41,27 +41,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         return label
     }()
     
-    var allBtn: UIButton = {
-        let button = UIButton()
-        button.setTitle("All",for: .normal)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = UIColor(rgb: 0xDB3069)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    var dummyBtn: UIButton = {
-        let button = UIButton()
-        button.setTitle("Donkey Kong",for: .normal)
-        button.setTitleColor(UIColor(rgb: 0xDB3069), for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor(rgb: 0xDB3069).cgColor
-        button.backgroundColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     var newLbl: UILabel = {
         let label = UILabel()
         label.lineBreakMode = .byWordWrapping
@@ -117,6 +96,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }()
     
     
+    var selectedBrand = ""
+    
     override func viewDidLoad() {
         
         self.view.backgroundColor = .white
@@ -139,11 +120,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             self.allGamesCV.reloadData()
             
             self.gameBrands = self.gamesBuffer.getAllBrands()
+            self.gameBrandCV.reloadData()
         }
 
         let layoutBrandCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layoutBrandCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layoutBrandCV.itemSize = CGSize(width: 120, height: 80)
+        layoutBrandCV.itemSize = CGSize(width: 160, height: 80)
         layoutBrandCV.scrollDirection = .horizontal
         
         let layoutNewCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -182,11 +164,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         popularGamesCV.backgroundColor = .white
         popularGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
-        
         allGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutAllGames)
         allGamesCV.dataSource = self
         allGamesCV.delegate = self
-        allGamesCV.register(GameBrandCell.self, forCellWithReuseIdentifier: "MyCell")
+        allGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
         allGamesCV.backgroundColor = .white
         allGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
@@ -198,8 +179,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.view.addSubview(scrollView)
         
         scrollView.addSubview(titleLbl)
-        scrollView.addSubview(allBtn)
-        scrollView.addSubview(dummyBtn)
         scrollView.addSubview(gameBrandCV)
         scrollView.addSubview(newLbl)
         scrollView.addSubview(line1)
@@ -224,10 +203,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     // MARK: CollectionView Delegates
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         
-        if collectionView == self.popularGamesCV {
-            if self.popularGames != nil {
-                return self.popularGames.count
+        if collectionView == self.gameBrandCV {
+            if self.gameBrands != nil {
+                return self.gameBrands.count
             }
         }
         
@@ -237,19 +217,31 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         }
         
-        return 100
+        if collectionView == self.popularGamesCV {
+            if self.popularGames != nil {
+                return self.popularGames.count
+            }
+        }
+        
+        if collectionView == self.allGamesCV {
+            if self.allGames != nil {
+                return self.allGames.count
+            }
+        }
+        
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if collectionView == self.gameBrandCV {
-            if self.popularGames != nil {
-                if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
+            if self.gameBrands != nil {
+                if self.gameBrands.count > 0 && indexPath.row < self.gameBrands.count {
                     
                     let gameBrandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! GameBrandCell
                     
-                    gameBrandCell.button.setTitle("AAAA", for: .normal)
-                    gameBrandCell.button.backgroundColor = .green
+                    gameBrandCell.button.setTitle(self.gameBrands[indexPath.row], for: .normal)
+                    
                     return gameBrandCell
                     
                 }
@@ -260,8 +252,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             if self.popularGames != nil {
                 if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
                     
-                    
                     let popularGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+                    popularGamesCell.imageView.layer.borderColor = UIColor.lightGray.cgColor
                     
                     if let image = self.popularGames[indexPath.row].imageUrl {
                         popularGamesCell.imageView.downloaded(from: image)
@@ -269,6 +261,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     if let name = self.popularGames[indexPath.row].name {
                         popularGamesCell.nameLbl.text = name
                     }
+                    
+                    return popularGamesCell
 
                 }
             }
@@ -287,6 +281,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                         newGamesCell.nameLbl.text = name
                     }
                     
+                    return newGamesCell
                 }
             }
         }
@@ -295,9 +290,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             if self.newGames != nil {
                 if self.newGames.count > 0 && indexPath.row < self.newGames.count {
                     
-                    let allGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! GameBrandCell
+                    let allGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+                    allGamesCell.imageView.layer.borderColor = UIColor.lightGray.cgColor
                     
-                    allGamesCell.button.setTitle("AAAA", for: .normal)
+                    if let image = self.allGames[indexPath.row].imageUrl {
+                        allGamesCell.imageView.downloaded(from: image)
+                    }
+                    if let name = self.allGames[indexPath.row].name {
+                        allGamesCell.nameLbl.text = name
+                    }
+                    
                     return allGamesCell
                 }
             }
@@ -306,11 +308,42 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         return collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) //return default
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
 
         let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        
+        if collectionView == self.gameBrandCV {
+            if self.gameBrands != nil {
+                if self.gameBrands.count > 0 && indexPath.row < self.gameBrands.count {
+                    
+                    let cell = collectionView.cellForItem(at: indexPath) as! GameBrandCell
+                    self.selectedBrand = cell.button.titleLabel!.text!
+                    cell.button.backgroundColor = UIColor(rgb: 0xDB3069)
+                    cell.button.setTitleColor(.white, for: .normal)
+                    self.gameBrandCV.reloadItems(at: [indexPath])
+                    
+                    return
+                }
+            }
+        }
+
+        if collectionView == self.newGamesCV {
+            if self.newGames != nil {
+                if self.newGames.count > 0 && indexPath.row < self.newGames.count {
+                    
+                    let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
+                    DetailsVC.image = cell.imageView.image
+                    DetailsVC.price = self.newGames[indexPath.row].price
+                    DetailsVC.gameTitleText = self.newGames[indexPath.row].name
+                    DetailsVC.details = self.newGames[indexPath.row].description
+                    
+                }
+            }
+        }
         
         if collectionView == self.popularGamesCV {
             if self.popularGames != nil {
@@ -326,18 +359,27 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         }
         
+        if collectionView == self.allGamesCV {
+            if self.allGames != nil {
+                if self.allGames.count > 0 && indexPath.row < self.allGames.count {
+                    
+                    let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
+                    DetailsVC.image = cell.imageView.image
+                    DetailsVC.price = self.allGames[indexPath.row].price
+                    DetailsVC.gameTitleText = self.allGames[indexPath.row].name
+                    DetailsVC.details = self.allGames[indexPath.row].description
+                    
+                }
+            }
+        }
+
+        
         self.present(DetailsVC, animated: false, completion: nil)
         
         
-        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
+
     
     
     //MARK: Constraints
@@ -350,24 +392,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.titleLbl.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 30).isActive = true
         
         self.gameBrandCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
-        self.gameBrandCV.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        self.gameBrandCV.heightAnchor.constraint(equalToConstant: 80).isActive = true
         self.gameBrandCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        self.gameBrandCV.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
-        
-        self.allBtn.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.allBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.allBtn.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
-        self.allBtn.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
-        
-        self.dummyBtn.widthAnchor.constraint(equalToConstant: 125).isActive = true
-        self.dummyBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.dummyBtn.centerXAnchor.constraint(equalTo: self.allBtn.rightAnchor, constant: 80).isActive = true
-        self.dummyBtn.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 15).isActive = true
+        self.gameBrandCV.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 10).isActive = true
         
         self.newLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
         self.newLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.newLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
-        self.newLbl.topAnchor.constraint(equalTo: self.allBtn.bottomAnchor, constant: 20).isActive = true
+        self.newLbl.topAnchor.constraint(equalTo: self.gameBrandCV.bottomAnchor, constant: 20).isActive = true
         
         self.line1.widthAnchor.constraint(equalToConstant: 300).isActive = true
         self.line1.heightAnchor.constraint(equalToConstant: 1).isActive = true
@@ -405,11 +437,20 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.line3.centerYAnchor.constraint(equalTo: self.allLbl.centerYAnchor, constant: 0).isActive = true
         
         self.allGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
-        self.allGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        self.allGamesCV.heightAnchor.constraint(equalToConstant: 400).isActive = true
         self.allGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         self.allGamesCV.topAnchor.constraint(equalTo: self.allLbl.bottomAnchor, constant: 20).isActive = true
         
     }
+    
+    
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     
     
     

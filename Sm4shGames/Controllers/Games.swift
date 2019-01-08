@@ -49,8 +49,8 @@ class Games {
             }
             brands.append(brand)
         }
-        
-        return brands
+
+        return Array(Set(brands)).sorted(by: { $0 < $1 })
         
     }
     

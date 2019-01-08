@@ -17,9 +17,14 @@ class GameBrandCell: UICollectionViewCell {
         super.init(frame: frame)
         
         let button = UIButton()
-        button.backgroundColor = UIColor(rgb: 0xDB3069)
         button.layer.cornerRadius = 7
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor(rgb: 0xDB3069), for: .normal)
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(rgb: 0xDB3069).cgColor
+        button.backgroundColor = .white
+        button.isUserInteractionEnabled = false
         self.button = button
         
         addSubview(button)
@@ -44,16 +49,15 @@ class GameBrandCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        self.button.setTitle("", for: .normal)
-        self.button.backgroundColor = .white
+        self.button.setTitle("XXX", for: .normal)
    
     }
     
     
     func setupConstraints(){
         
-        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         button.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
 
