@@ -18,14 +18,26 @@ class Game {
     var genre: String?
     var popular: Bool?
 //    var rating: String
-//    var downloads: String
+    var downloads: String?
     var description: String?
-//    var SKU: String
+    var SKU: String?
     var createdAt: Date?
     var updatedAt: Date?
     
     
-    init(objectId: String?, name: String?, brand: String?, price: String?, imageUrl: String?, genre: String?, popular: Bool?, updatedAt: Date?, createdAt: Date?, description: String?) {
+    init(objectId: String?,
+         name: String?,
+         brand: String?,
+         price: String?,
+         imageUrl: String?,
+         genre: String?,
+         popular: Bool?,
+         updatedAt: Date?,
+         createdAt: Date?,
+         description: String?,
+         downloads: String?,
+         sku: String?) {
+        
         self.objectId = objectId
         self.name = name
         self.brand = brand
@@ -36,6 +48,9 @@ class Game {
         self.updatedAt = updatedAt
         self.createdAt = createdAt
         self.description = description
+        self.downloads = downloads
+        self.SKU = sku
+        
     }
     
 }

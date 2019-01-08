@@ -18,8 +18,6 @@ class NewGamesCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        //        image.image = model.image!
-        //        name.text = model.name.text!
         let image = UIImageView()
         image.backgroundColor = .white
         image.layer.cornerRadius = 7
@@ -38,6 +36,7 @@ class NewGamesCell: UICollectionViewCell {
         let subtitle = UILabel()
         subtitle.text = "Please Wait"
         subtitle.translatesAutoresizingMaskIntoConstraints = false
+        subtitle.textAlignment = .center
         self.subtitleLbl = subtitle
         
         
@@ -77,12 +76,12 @@ class NewGamesCell: UICollectionViewCell {
         imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20)
         
-        nameLbl.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        nameLbl.widthAnchor.constraint(equalToConstant: 110).isActive = true
         nameLbl.heightAnchor.constraint(equalToConstant: 12).isActive = true
         nameLbl.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         nameLbl.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
         
-        subtitleLbl.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        subtitleLbl.widthAnchor.constraint(equalToConstant: 110).isActive = true
         subtitleLbl.heightAnchor.constraint(equalToConstant: 12).isActive = true
         subtitleLbl.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         subtitleLbl.topAnchor.constraint(equalTo: nameLbl.bottomAnchor, constant: 10).isActive = true

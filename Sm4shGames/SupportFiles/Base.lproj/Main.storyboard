@@ -177,9 +177,11 @@ is worth gaming</string>
                     </view>
                     <connections>
                         <outlet property="detailTV" destination="Frw-xt-7EN" id="RmJ-0w-JJA"/>
+                        <outlet property="downloadsLbl" destination="TBU-4E-Ub0" id="xQW-gS-drd"/>
                         <outlet property="gameImageIV" destination="EPk-Sn-z8Y" id="QK6-U6-YlD"/>
                         <outlet property="gamePriceBtn" destination="pGc-5o-qXm" id="LSH-PE-7rH"/>
                         <outlet property="gameTitleLbl" destination="D7F-81-ZHG" id="g9H-vo-P9w"/>
+                        <outlet property="skuNumberLbl" destination="8q6-Vu-AmN" id="aLL-oc-FbI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HGh-7r-VbL" userLabel="First Responder" sceneMemberID="firstResponder"/>

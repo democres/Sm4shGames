@@ -39,7 +39,9 @@ class Networking {
                                            popular: game["popular"] as? Bool,
                                            updatedAt: game["updatedAt"] as? Date,
                                            createdAt: game["createdAt"] as? Date,
-                                           description: game["description"] as? String)
+                                           description: game["description"] as? String,
+                                           downloads: game["downloads"] as? String,
+                                           sku: game["SKU"] as? String)
                         
 
                         if let dateString = game["updatedAt"] {

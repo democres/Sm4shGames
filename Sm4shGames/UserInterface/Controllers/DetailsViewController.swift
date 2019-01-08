@@ -16,11 +16,15 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var gameTitleLbl: UILabel!
     @IBOutlet weak var gamePriceBtn: UIButton!
     @IBOutlet weak var detailTV: UITextView!
+    @IBOutlet weak var skuNumberLbl: UILabel!
+    @IBOutlet weak var downloadsLbl: UILabel!
     
     var image : UIImage!
     var gameTitleText: String!
     var price: String!
     var details: String!
+    var skuNumber: String!
+    var downloads: String!
     
     override func viewDidLoad()
     {
@@ -32,6 +36,8 @@ class DetailsViewController: UIViewController {
         gameTitleLbl.text = gameTitleText
         gamePriceBtn.setTitle(price, for: .normal)
         detailTV.text = details
+        skuNumberLbl.text = skuNumber
+        downloadsLbl.text = downloads
     }
     
 }

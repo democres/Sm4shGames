@@ -260,6 +260,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }
                     if let name = self.popularGames[indexPath.row].name {
                         popularGamesCell.nameLbl.text = name
+                        popularGamesCell.subtitleLbl.text = nil
                     }
                     
                     return popularGamesCell
@@ -279,6 +280,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }
                     if let name = self.newGames[indexPath.row].name {
                         newGamesCell.nameLbl.text = name
+                        newGamesCell.subtitleLbl.text = nil
                     }
                     
                     return newGamesCell
@@ -298,6 +300,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }
                     if let name = self.allGames[indexPath.row].name {
                         allGamesCell.nameLbl.text = name
+                        allGamesCell.subtitleLbl.text = nil
                     }
                     
                     return allGamesCell
@@ -312,9 +315,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
         
         if collectionView == self.gameBrandCV {
             if self.gameBrands != nil {
@@ -336,10 +336,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if self.newGames.count > 0 && indexPath.row < self.newGames.count {
                     
                     let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
-                    DetailsVC.image = cell.imageView.image
-                    DetailsVC.price = self.newGames[indexPath.row].price
-                    DetailsVC.gameTitleText = self.newGames[indexPath.row].name
-                    DetailsVC.details = self.newGames[indexPath.row].description
+                    presentDetailsVC(cell: cell, dataArray: self.newGames, indexPath: indexPath)
                     
                 }
             }
@@ -350,10 +347,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if self.popularGames.count > 0 && indexPath.row < self.popularGames.count {
                     
                     let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
-                    DetailsVC.image = cell.imageView.image
-                    DetailsVC.price = self.popularGames[indexPath.row].price
-                    DetailsVC.gameTitleText = self.popularGames[indexPath.row].name
-                    DetailsVC.details = self.popularGames[indexPath.row].description
+                    presentDetailsVC(cell: cell, dataArray: self.popularGames, indexPath: indexPath)
                     
                 }
             }
@@ -364,19 +358,29 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if self.allGames.count > 0 && indexPath.row < self.allGames.count {
                     
                     let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
-                    DetailsVC.image = cell.imageView.image
-                    DetailsVC.price = self.allGames[indexPath.row].price
-                    DetailsVC.gameTitleText = self.allGames[indexPath.row].name
-                    DetailsVC.details = self.allGames[indexPath.row].description
+                    presentDetailsVC(cell: cell, dataArray: self.allGames, indexPath: indexPath)
                     
                 }
             }
         }
-
+        
+        
+    }
+    
+    
+    func presentDetailsVC(cell: NewGamesCell, dataArray: [Game], indexPath: IndexPath){
+        
+        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        
+        DetailsVC.image = cell.imageView.image
+        DetailsVC.price = dataArray[indexPath.row].price
+        DetailsVC.gameTitleText = dataArray[indexPath.row].name
+        DetailsVC.details = dataArray[indexPath.row].description
+        DetailsVC.downloads = dataArray[indexPath.row].downloads
+        DetailsVC.skuNumber = dataArray[indexPath.row].SKU
         
         self.present(DetailsVC, animated: false, completion: nil)
-        
-        
     }
     
 
