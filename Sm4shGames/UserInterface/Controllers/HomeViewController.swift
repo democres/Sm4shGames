@@ -116,7 +116,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             self.newGamesCV.reloadData()
             
             self.allGames = self.gamesBuffer.games
-            self.allLbl.text = "New (\(self.allGames.count))"
+            self.allLbl.text = "All (\(self.allGames.count))"
             self.allGamesCV.reloadData()
             
             self.gameBrands = self.gamesBuffer.getAllBrands()

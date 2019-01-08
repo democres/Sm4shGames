@@ -41,41 +41,15 @@ class Networking {
                                            createdAt: game["createdAt"] as? Date,
                                            description: game["description"] as? String)
                         
-                        
-                        let kSQLiteDateFormat : String = "yyyy/MM/dd HH:mm:ss Z"
-                        let dateFormat = [kSQLiteDateFormat,
-                                          "dd MM, yyyy",
-                                          "MMM-yyyy",
-                                          "yyyy-MM-dd",
-                                          "yyyy-12",
-                                          "yyyy/MM/dd",
-                                          "yyyy/mm/dd",
-                                          "yyyy-MM-dd HH:mm:ss",
-                                          "yyyy-MM-dd HH:mm:ss Z",
-                                          "yyyy-MM-dd HH:mm:ss K",
-                                          "yyyy-MM-dd HH:mm:ss ZZ",
-                                          "yyyy/MM/dd hh:mm a",
-                                          "MM/dd/yyyy",
-                                          "MM/dd/yyyy HH:mm:ss Z",
-                                          "h:mm a",
-                                          "hh:mm a",
-                                          "yyyy/MM/dd HH:mm:ss Z",
-                                          "yyyy/MM/dd h:mm a",
-                                          "MM/dd/yyyy h:mm a",
-                                          "yyyy-MM-dd h:mm a",
-                                          "yyyy-MM-dd'T'hh:mm:ss",
-                                          "yyyy/MM/dd h a",
-                                          "yyyy-MM-dd'T'HH:mm:ss","dd MMM, yyyy","dd-MM-yyyy HH:mm", "EEE, MMM dd","MM/dd/yyyy hh:mm:ss a"]
 
-                        if let dateString : String = game["updatedAt"] as? String {
-                            let dateFormatter : DateFormatter = DateFormatter()
-                            for format in dateFormat {
-                                
-                                dateFormatter.dateFormat =  format
-                                if let date = dateFormatter.date(from: dateString) {
-                                    gameAux.updatedAt = date
-                                }
+                        if let dateString = game["updatedAt"] {
+                            let formatter = DateFormatter()
+                            formatter.locale = Locale(identifier: "en_US_POSIX")
+                            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                            if let date = formatter.date(from: dateString as! String) {
+                                gameAux.updatedAt = date
                             }
+                            
                         }
                         
                         games.append(gameAux)

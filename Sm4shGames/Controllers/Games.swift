@@ -23,11 +23,11 @@ class Games {
     func getRecentGames() -> [Game] {
 
         var sortedByDate = [Game]()
-        for _ in games {
-            sortedByDate = games.filter({ $0.updatedAt != nil})
-        }
+        
+        sortedByDate = games.filter({ $0.updatedAt != nil})
+            
         sortedByDate.sorted(by: {
-            $0.createdAt!.compare($1.createdAt!) == .orderedDescending
+            $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
         })
         
         if sortedByDate.count > 1 {
@@ -49,8 +49,11 @@ class Games {
             }
             brands.append(brand)
         }
-
-        return Array(Set(brands)).sorted(by: { $0 < $1 })
+        
+        brands = Array(Set(brands)).sorted(by: { $0 < $1 })
+        brands.insert("All", at: 0)
+        
+        return brands
         
     }
     
