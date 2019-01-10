@@ -199,6 +199,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             
             self.gamesBuffer = Games(games: result)
             
+            var x = self.gamesBuffer.filterByRange(min: 22.1, max: 23.1)
+            
             self.popularGames = self.gamesBuffer.getPopularGames()
             self.popularLbl.text = "Popular (\(self.popularGames.count))"
             self.popularGamesCV.reloadData()

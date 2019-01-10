@@ -1,20 +1,18 @@
 PODS:
   - Alamofire (5.0.0.beta.1)
+  - RangeSeekSlider (1.7.0)
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0.beta.1)
+  - RangeSeekSlider
   - SwiftyJSON (~> 4.0)
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 2ef6d6c984c5d21c366e9b41a9ae7dfee2b67a44
+  RangeSeekSlider: 0386c5a9aa5ebcb2fa5238e8a627280cf46c7c0a
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 20c05af5571bc8136a4e2487cae6b44336707d2f
+PODFILE CHECKSUM: 0ebca9970f3f8ac3ed5b8111e2d31751fb88b1da
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.4.0

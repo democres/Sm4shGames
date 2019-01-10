@@ -188,6 +188,7 @@
 				1F192DC321D55F8E005111F6 /* Frameworks */,
 				1F192DC421D55F8E005111F6 /* Resources */,
 				190AC3F337FBBF10A66DFCAF /* [CP] Embed Pods Frameworks */,
+				C27E7DE110469F081C22CBD2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,18 +251,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,20 +268,31 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E7E2A7EA5C431F71332E41DE /* [CP] Check Pods Manifest.lock */ = {
+		C27E7DE110469F081C22CBD2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E7E2A7EA5C431F71332E41DE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Sm4shGames-checkManifestLockResult.txt",
 			);

@@ -19,9 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = UserDefaults.standard
         if let launchState = defaults.string(forKey: "appDidLaunch" ) {
             if launchState == "Launched" {
-                let VC = HomeViewController()
-                self.window?.rootViewController = VC
+                
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                let nav1 = UINavigationController()
+                let mainView = HomeViewController()
+                nav1.viewControllers = [mainView]
+                self.window!.rootViewController = nav1
                 self.window?.makeKeyAndVisible()
+//                
+//                let VC = HomeViewController()
+//                self.window?.rootViewController = VC
+//                self.window?.makeKeyAndVisible()
             }
         }
         

@@ -17,7 +17,7 @@ class Game {
     var imageUrl: String?
     var genre: String?
     var popular: Bool?
-//    var rating: String
+    var rating: String?
     var downloads: String?
     var description: String?
     var SKU: String?
@@ -36,7 +36,8 @@ class Game {
          createdAt: Date?,
          description: String?,
          downloads: String?,
-         sku: String?) {
+         sku: String?,
+         rating: String?) {
         
         self.objectId = objectId
         self.name = name
@@ -50,6 +51,7 @@ class Game {
         self.description = description
         self.downloads = downloads
         self.SKU = sku
+        self.rating = rating
         
     }
     

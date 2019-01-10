@@ -16,14 +16,6 @@ class Games {
         self.games = games
     }
     
-    func getPopularGames() -> [Game] {
-        return self.games.filter({ $0.popular == true })
-    }
-    
-    func getGamesByBrand(brand: String) -> [Game] {
-        return self.games.filter({ $0.brand == brand })
-    }
-    
     func getRecentGames() -> [Game] {
 
         var sortedByDate = [Game]()
@@ -59,6 +51,33 @@ class Games {
         
         return brands
         
+    }
+    
+    
+    //MARK: FILTERS
+    
+    func getPopularGames() -> [Game] {
+        return self.games.filter({ $0.popular == true })
+    }
+    
+    func getGamesByBrand(brand: String) -> [Game] {
+        return self.games.filter({ $0.brand == brand })
+    }
+    
+    
+    func filterByRange(min: Double, max: Double) -> [Game]{
+        
+        return self.games.filter({
+            let price = $0.price!.doubleValue
+            return price >= min && price <= max
+        })
+    }
+    
+    func filterByRating(rating: Int) -> [Game]{
+        
+        return self.games.filter({
+            return Int($0.rating!) == rating
+        })
     }
     
 }
