@@ -15,8 +15,8 @@ struct Constants {
     static let screenHeight = UIScreen.main.bounds.height
 }
 
-class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    
+class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, FilterVCDelegate {
+
     var scrollView: UIScrollView!
     
     var gameBrandCV: UICollectionView!
@@ -39,6 +39,17 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         label.text = "Games"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    var filterBtn: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 7
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderColor = UIColor(rgb: 0xDB3069).cgColor
+        button.setTitleColor(UIColor(rgb: 0xDB3069), for: .normal)
+        button.layer.borderWidth = 1
+        button.setTitle("FILTERS", for: .normal)
+        return button
     }()
     
     var newLbl: UILabel = {
@@ -97,13 +108,18 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     var selectedBrand = "All"
+    
+    var refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         
         self.view.backgroundColor = .white
-        
-        showGames()
 
+        showGames()
+        
+        self.filterBtn.addTarget(self, action: #selector(self.pressFilters(_:)), for: .touchUpInside)
+
+        
         let layoutBrandCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layoutBrandCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
         layoutBrandCV.itemSize = CGSize(width: 160, height: 80)
@@ -158,6 +174,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.view.addSubview(scrollView)
         
         scrollView.addSubview(titleLbl)
+        scrollView.addSubview(filterBtn)
         scrollView.addSubview(gameBrandCV)
         scrollView.addSubview(newLbl)
         scrollView.addSubview(line1)
@@ -169,8 +186,28 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         scrollView.addSubview(line3)
         scrollView.addSubview(allGamesCV)
         
+        refreshControl.attributedTitle = NSAttributedString(string: "Loading Data")
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        scrollView.addSubview(refreshControl)
+        
         setupConstraints()
     }
+    
+    
+    @objc func refresh(_ sender:AnyObject) {
+        showGames()
+    }
+    
+    
+    @objc func pressFilters(_ sender: UIButton){
+        
+        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        FilterVC.delegate = self
+        self.navigationController?.pushViewController(FilterVC, animated: true)
+        
+    }
+    
     
 //    func showCacheGames(){
 //
@@ -215,6 +252,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             
             self.gameBrands = self.gamesBuffer.getAllBrands()
             self.gameBrandCV.reloadData()
+            
+            self.refreshControl.endRefreshing()
 
         }
         
@@ -248,7 +287,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     
@@ -441,7 +480,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         DetailsVC.downloads = dataArray[indexPath.row].downloads! + " downloads"
         DetailsVC.skuNumber = "SKU: " + dataArray[indexPath.row].SKU!
         
-        self.present(DetailsVC, animated: false, completion: nil)
+        self.navigationController?.pushViewController(DetailsVC, animated: true)
     }
     
 
@@ -455,6 +494,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.titleLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
         self.titleLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
         self.titleLbl.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 30).isActive = true
+        
+        self.filterBtn.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        self.filterBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.filterBtn.centerXAnchor.constraint(equalTo: scrollView.rightAnchor, constant: Constants.screenWidth - 60).isActive = true
+        self.filterBtn.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 30).isActive = true
         
         self.gameBrandCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
         self.gameBrandCV.heightAnchor.constraint(equalToConstant: 80).isActive = true
@@ -510,14 +554,28 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     
+    // MARK: FILTER DELEGATE
+    func applyFilters(min: Double, max: Double) {
+        
+        let gamesBufferAux = Games(games: self.gamesBuffer.filterByRange(min: min, max: max))
+        
+        self.popularGames = gamesBufferAux.getPopularGames()
+        self.popularLbl.text = "Popular (\(self.popularGames.count))"
+        self.popularGamesCV.reloadData()
+        
+        self.newGames = gamesBufferAux.getRecentGames()
+        self.newLbl.text = "New (\(self.newGames.count))"
+        self.newGamesCV.reloadData()
+        
+        self.allGames = gamesBufferAux.games
+        self.allLbl.text = "All (\(self.allGames.count))"
+        self.allGamesCV.reloadData()
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
     
 }
 

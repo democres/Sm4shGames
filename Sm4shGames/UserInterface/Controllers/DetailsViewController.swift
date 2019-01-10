@@ -40,4 +40,8 @@ class DetailsViewController: UIViewController {
         downloadsLbl.text = downloads
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
 }

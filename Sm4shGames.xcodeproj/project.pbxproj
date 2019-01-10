@@ -17,6 +17,7 @@
 		1F85D1E321D69AF000EBBA36 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E221D69AF000EBBA36 /* Extensions.swift */; };
 		1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E521D6AE4300EBBA36 /* Networking.swift */; };
 		33A37C848579CDDD547F55AB /* Pods_Sm4shGames.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */; };
+		7F1759FB21E7CCC100693520 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1759FA21E7CCC100693520 /* FilterViewController.swift */; };
 		EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2AE21E0F0B600D2C29B /* Game.swift */; };
 		EF5ED2B221E0F58400D2C29B /* Games.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2B121E0F58400D2C29B /* Games.swift */; };
 		EF5ED2B421E10D4E00D2C29B /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2B321E10D4E00D2C29B /* DetailsViewController.swift */; };
@@ -36,6 +37,7 @@
 		1F85D1DF21D6952700EBBA36 /* NewGamesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGamesCell.swift; sourceTree = "<group>"; };
 		1F85D1E221D69AF000EBBA36 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1F85D1E521D6AE4300EBBA36 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		7F1759FA21E7CCC100693520 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sm4shGames.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5ED2AE21E0F0B600D2C29B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		EF5ED2B121E0F58400D2C29B /* Games.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Games.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				1F192DDE21D57541005111F6 /* HomeViewController.swift */,
 				EF5ED2B321E10D4E00D2C29B /* DetailsViewController.swift */,
+				7F1759FA21E7CCC100693520 /* FilterViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -254,12 +257,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RangeSeekSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
@@ -313,6 +318,7 @@
 				EF5ED2B421E10D4E00D2C29B /* DetailsViewController.swift in Sources */,
 				1F192DCA21D55F8E005111F6 /* AppDelegate.swift in Sources */,
 				EF5ED2B221E0F58400D2C29B /* Games.swift in Sources */,
+				7F1759FB21E7CCC100693520 /* FilterViewController.swift in Sources */,
 				EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */,
 				1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */,
 				1F85D1E021D6952700EBBA36 /* NewGamesCell.swift in Sources */,

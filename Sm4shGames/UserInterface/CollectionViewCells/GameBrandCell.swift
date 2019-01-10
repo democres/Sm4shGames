@@ -17,7 +17,6 @@ class GameBrandCell: UICollectionViewCell {
         super.init(frame: frame)
         
         let button = UIButton()
-        button.layer.cornerRadius = 7
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor(rgb: 0xDB3069), for: .normal)
         button.layer.cornerRadius = 5
