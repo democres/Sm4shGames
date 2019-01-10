@@ -108,14 +108,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     var selectedBrand = "All"
-    
     var refreshControl = UIRefreshControl()
+    var isFiltering = false
 
     override func viewDidLoad() {
         
         self.view.backgroundColor = .white
 
-        showGames()
+        self.showGames()
         
         self.filterBtn.addTarget(self, action: #selector(self.pressFilters(_:)), for: .touchUpInside)
 
@@ -201,10 +201,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     @objc func pressFilters(_ sender: UIButton){
         
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
-        FilterVC.delegate = self
-        self.navigationController?.pushViewController(FilterVC, animated: true)
+        if self.isFiltering{
+            self.loadCollectionViews()
+            self.isFiltering = false
+            self.filterBtn.setTitle("FILTERS", for: .normal)
+        } else {
+            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+            FilterVC.delegate = self
+            self.navigationController?.pushViewController(FilterVC, animated: true)
+        }
         
     }
     
@@ -235,25 +241,29 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         net.fetchGames { (result) in
             
             self.gamesBuffer = Games(games: result)
-            
-            self.popularGames = self.gamesBuffer.getPopularGames()
-            self.popularLbl.text = "Popular (\(self.popularGames.count))"
-            self.popularGamesCV.reloadData()
-            
-            self.newGames = self.gamesBuffer.getRecentGames()
-            self.newLbl.text = "New (\(self.newGames.count))"
-            self.newGamesCV.reloadData()
-            
-            self.allGames = self.gamesBuffer.games
-            self.allLbl.text = "All (\(self.allGames.count))"
-            self.allGamesCV.reloadData()
-            
-            self.gameBrands = self.gamesBuffer.getAllBrands()
-            self.gameBrandCV.reloadData()
-            
+            self.loadCollectionViews()
             self.refreshControl.endRefreshing()
 
         }
+        
+    }
+    
+    func loadCollectionViews(){
+        
+        self.popularGames = self.gamesBuffer.getPopularGames()
+        self.popularLbl.text = "Popular (\(self.popularGames.count))"
+        self.popularGamesCV.reloadData()
+        
+        self.newGames = self.gamesBuffer.getRecentGames()
+        self.newLbl.text = "New (\(self.newGames.count))"
+        self.newGamesCV.reloadData()
+        
+        self.allGames = self.gamesBuffer.games
+        self.allLbl.text = "All (\(self.allGames.count))"
+        self.allGamesCV.reloadData()
+        
+        self.gameBrands = self.gamesBuffer.getAllBrands()
+        self.gameBrandCV.reloadData()
         
     }
     
@@ -286,6 +296,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        if self.isFiltering {
+            self.filterBtn.setTitle("CLEAR", for: .normal)
+        } else {
+            self.filterBtn.setTitle("FILTERS", for: .normal)
+        }
     }
     
     
@@ -570,6 +586,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.allGames = gamesBufferAux.games
         self.allLbl.text = "All (\(self.allGames.count))"
         self.allGamesCV.reloadData()
+        
+        self.isFiltering = true
     }
     
     override func didReceiveMemoryWarning() {
