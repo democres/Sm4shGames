@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Cosmos
 
 class DetailsViewController: UIViewController {
     
@@ -18,6 +18,7 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var detailTV: UITextView!
     @IBOutlet weak var skuNumberLbl: UILabel!
     @IBOutlet weak var downloadsLbl: UILabel!
+    @IBOutlet weak var ratingController: CosmosView!
     
     var image : UIImage!
     var gameTitleText: String!
@@ -25,6 +26,7 @@ class DetailsViewController: UIViewController {
     var details: String!
     var skuNumber: String!
     var downloads: String!
+    var rating: Int!
     
     override func viewDidLoad()
     {
@@ -38,6 +40,7 @@ class DetailsViewController: UIViewController {
         detailTV.text = details
         skuNumberLbl.text = skuNumber
         downloadsLbl.text = downloads
+        ratingController.rating = Double(rating)
     }
     
     override func viewWillAppear(_ animated: Bool) {

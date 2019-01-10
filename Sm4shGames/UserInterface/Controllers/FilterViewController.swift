@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 import RangeSeekSlider
+import Cosmos
 
 protocol FilterVCDelegate: class {
-    func applyFilters(min: Double, max: Double)
+    func applyFilters(minPrice: Double, maxPrice: Double, rating: Int)
 }
 
 class FilterViewController: UIViewController{
@@ -19,6 +20,7 @@ class FilterViewController: UIViewController{
     weak var delegate: FilterVCDelegate?
     
     @IBOutlet weak var rangeSeeker: RangeSeekSlider!
+    @IBOutlet weak var ratingControl: CosmosView!
     
     override func viewDidLoad()
     {
@@ -31,8 +33,9 @@ class FilterViewController: UIViewController{
     
     @IBAction func touchApplyFilters(_ sender: Any) {
         
-        delegate?.applyFilters(min: Double(self.rangeSeeker!.selectedMinValue),
-                               max: Double(self.rangeSeeker!.selectedMaxValue))
+        delegate?.applyFilters(minPrice: Double(self.rangeSeeker!.selectedMinValue),
+                               maxPrice: Double(self.rangeSeeker!.selectedMaxValue),
+                               rating: Int(self.ratingControl.rating))
         self.navigationController?.popViewController(animated: false)
     }
     

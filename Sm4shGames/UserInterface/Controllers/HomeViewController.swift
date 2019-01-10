@@ -236,8 +236,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             
             self.gamesBuffer = Games(games: result)
             
-            var x = self.gamesBuffer.filterByRange(min: 22.1, max: 23.1)
-            
             self.popularGames = self.gamesBuffer.getPopularGames()
             self.popularLbl.text = "Popular (\(self.popularGames.count))"
             self.popularGamesCV.reloadData()
@@ -388,8 +386,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         
         if collectionView == self.allGamesCV {
-            if self.newGames != nil {
-                if self.newGames.count > 0 && indexPath.row < self.newGames.count {
+            if self.allGames != nil {
+                if self.allGames.count > 0 && indexPath.row < self.allGames.count {
                     
                     let allGamesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
                     allGamesCell.imageView.layer.borderColor = UIColor.lightGray.cgColor
@@ -479,6 +477,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         DetailsVC.details = dataArray[indexPath.row].description
         DetailsVC.downloads = dataArray[indexPath.row].downloads! + " downloads"
         DetailsVC.skuNumber = "SKU: " + dataArray[indexPath.row].SKU!
+        DetailsVC.rating = Int(dataArray[indexPath.row].rating!)
         
         self.navigationController?.pushViewController(DetailsVC, animated: true)
     }
@@ -555,9 +554,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     // MARK: FILTER DELEGATE
-    func applyFilters(min: Double, max: Double) {
+    func applyFilters(minPrice: Double, maxPrice: Double, rating: Int) {
         
-        let gamesBufferAux = Games(games: self.gamesBuffer.filterByRange(min: min, max: max))
+        var gamesBufferAux = Games(games: self.gamesBuffer.filterByRange(min: minPrice, max: maxPrice))
+        gamesBufferAux = Games(games: gamesBufferAux.filterByRating(rating: rating))
         
         self.popularGames = gamesBufferAux.getPopularGames()
         self.popularLbl.text = "Popular (\(self.popularGames.count))"
