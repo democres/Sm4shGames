@@ -80,4 +80,16 @@ class Games {
         })
     }
     
+    func getMaxPrice() -> Double {
+        let sortedArray = self.games.sorted(by: { $0.price!.doubleValue > $1.price!.doubleValue })
+    
+        return sortedArray[0].price!.doubleValue
+    }
+    
+    func getMinPrice() -> Double {
+        let sortedArray = self.games.sorted(by: { $0.price!.doubleValue > $1.price!.doubleValue })
+        
+        return sortedArray[sortedArray.count - 1].price!.doubleValue
+    }
+    
 }

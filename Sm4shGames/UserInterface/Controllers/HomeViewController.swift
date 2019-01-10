@@ -209,6 +209,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
             FilterVC.delegate = self
+            FilterVC.maxPrice = self.gamesBuffer.getMaxPrice()
+            FilterVC.minPrice = self.gamesBuffer.getMinPrice()
             self.navigationController?.pushViewController(FilterVC, animated: true)
         }
         

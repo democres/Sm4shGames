@@ -22,9 +22,15 @@ class FilterViewController: UIViewController{
     @IBOutlet weak var rangeSeeker: RangeSeekSlider!
     @IBOutlet weak var ratingControl: CosmosView!
     
+    var maxPrice: Double!
+    var minPrice: Double!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        self.rangeSeeker.minValue = CGFloat(minPrice)
+        self.rangeSeeker.maxValue = CGFloat(maxPrice)
     }
 
     override func viewWillAppear(_ animated: Bool) {
