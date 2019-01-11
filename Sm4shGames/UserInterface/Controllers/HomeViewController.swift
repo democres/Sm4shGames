@@ -6,6 +6,7 @@
 //  Copyright © 2018 DavidF. All rights reserved.
 //
 
+
 import Foundation
 import UIKit
 
@@ -23,6 +24,8 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     var newGamesCV: UICollectionView!
     var popularGamesCV: UICollectionView!
     var allGamesCV: UICollectionView!
+    
+    var filteredGamesCV: UICollectionView!
 
     var gamesBuffer: Games!
     
@@ -30,6 +33,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     var allGames: [Game]!
     var newGames: [Game]!
     var gameBrands: [String]!
+    var filteredGames: [Game]!
     
     var titleLbl: UILabel = {
         let label = UILabel()
@@ -143,6 +147,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         layoutAllGames.itemSize = CGSize(width: 160, height: 180)
         layoutAllGames.scrollDirection = .vertical
         
+        let layoutFilteredGames: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layoutFilteredGames.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layoutFilteredGames.itemSize = CGSize(width: 160, height: 180)
+        layoutFilteredGames.scrollDirection = .vertical
+        
         gameBrandCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutBrandCV)
         gameBrandCV.dataSource = self
         gameBrandCV.delegate = self
@@ -171,6 +180,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         allGamesCV.backgroundColor = .white
         allGamesCV.translatesAutoresizingMaskIntoConstraints = false
         
+        filteredGamesCV = UICollectionView(frame: self.view.frame, collectionViewLayout: layoutFilteredGames)
+        filteredGamesCV.dataSource = self
+        filteredGamesCV.delegate = self
+        filteredGamesCV.register(NewGamesCell.self, forCellWithReuseIdentifier: "MyCell")
+        filteredGamesCV.backgroundColor = .white
+        filteredGamesCV.translatesAutoresizingMaskIntoConstraints = false
+        filteredGamesCV.isHidden = true
+        
         scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: Constants.screenWidth, height: Constants.screenHeight))
         scrollView.contentSize = CGSize(width: Constants.screenWidth, height: 1200)
         
@@ -188,6 +205,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         scrollView.addSubview(allLbl)
         scrollView.addSubview(lineAllGames)
         scrollView.addSubview(allGamesCV)
+        scrollView.addSubview(filteredGamesCV)
         
         refreshControl.attributedTitle = NSAttributedString(string: "Loading Data")
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
@@ -340,16 +358,19 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
 
     
     @objc func refresh(_ sender:AnyObject) {
-        showGames()
+        self.showGames()
     }
     
     
     @objc func pressFilters(_ sender: UIButton){
         
-        if self.isFiltering{
+        if self.isFiltering {
             self.loadCollectionViews()
             self.isFiltering = false
             self.filterBtn.setTitle("FILTERS", for: .normal)
+            self.filteredGames.removeAll()
+            self.filteredGamesCV.isHidden = true
+            self.scrollView.contentSize = CGSize(width: Constants.screenWidth, height: 1200)
         } else {
             let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
@@ -357,9 +378,34 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             FilterVC.maxPrice = self.gamesBuffer.getMaxPrice()
             FilterVC.minPrice = self.gamesBuffer.getMinPrice()
             self.navigationController?.pushViewController(FilterVC, animated: true)
+            self.scrollView.contentSize = CGSize(width: Constants.screenWidth, height: Constants.screenHeight - 100)
         }
         
     }
+    
+    
+    
+    func presentDetailsVC(cell: NewGamesCell, dataArray: [Game], indexPath: IndexPath){
+        
+        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        
+        DetailsVC.image = cell.imageView.image
+        DetailsVC.price = "$" + dataArray[indexPath.row].price!
+        DetailsVC.gameTitleText = dataArray[indexPath.row].name
+        DetailsVC.details = dataArray[indexPath.row].description
+        DetailsVC.downloads = dataArray[indexPath.row].downloads! + " downloads"
+        DetailsVC.skuNumber = "SKU: " + dataArray[indexPath.row].SKU!
+        DetailsVC.rating = Int(dataArray[indexPath.row].rating!)
+        
+        self.navigationController?.pushViewController(DetailsVC, animated: true)
+    }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -394,6 +440,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         if collectionView == self.allGamesCV {
             if self.allGames != nil {
                 return self.allGames.count
+            }
+        }
+        
+        if collectionView == self.filteredGamesCV {
+            if self.filteredGames != nil {
+                return self.filteredGames.count
             }
         }
         
@@ -483,6 +535,27 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         }
         
+        
+        if collectionView == self.filteredGamesCV {
+            if self.filteredGames != nil {
+                if self.filteredGames.count > 0 && indexPath.row < self.filteredGames.count {
+                    
+                    let filteredGameCell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) as! NewGamesCell
+                    filteredGameCell.imageView.layer.borderColor = UIColor.lightGray.cgColor
+                    
+                    if let image = self.filteredGames[indexPath.row].imageUrl {
+                        filteredGameCell.imageView.downloaded(from: image)
+                    }
+                    if let name = self.filteredGames[indexPath.row].name {
+                        filteredGameCell.nameLbl.text = name
+                        filteredGameCell.subtitleLbl.text = nil
+                    }
+                    
+                    return filteredGameCell
+                }
+            }
+        }
+        
         return collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath as IndexPath) //return default
     }
     
@@ -540,31 +613,21 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         }
         
+        if collectionView == self.filteredGamesCV {
+            if self.filteredGames != nil {
+                if self.filteredGames.count > 0 && indexPath.row < self.filteredGames.count {
+                    
+                    let cell = collectionView.cellForItem(at: indexPath) as! NewGamesCell
+                    presentDetailsVC(cell: cell, dataArray: self.filteredGames, indexPath: indexPath)
+                    
+                }
+            }
+        }
+        
         
     }
     
-    
-    func presentDetailsVC(cell: NewGamesCell, dataArray: [Game], indexPath: IndexPath){
-        
-        let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let DetailsVC = storyBoard.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
-        
-        DetailsVC.image = cell.imageView.image
-        DetailsVC.price = "$" + dataArray[indexPath.row].price!
-        DetailsVC.gameTitleText = dataArray[indexPath.row].name
-        DetailsVC.details = dataArray[indexPath.row].description
-        DetailsVC.downloads = dataArray[indexPath.row].downloads! + " downloads"
-        DetailsVC.skuNumber = "SKU: " + dataArray[indexPath.row].SKU!
-        DetailsVC.rating = Int(dataArray[indexPath.row].rating!)
-        
-        self.navigationController?.pushViewController(DetailsVC, animated: true)
-    }
-    
-    
-    
-    
-    
-    
+
     
     //MARK: View Constraints
     
@@ -584,6 +647,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.gameBrandCV.heightAnchor.constraint(equalToConstant: 80).isActive = true
         self.gameBrandCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         self.gameBrandCV.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 10).isActive = true
+        
+        
+        self.filteredGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+        self.filteredGamesCV.heightAnchor.constraint(equalToConstant: Constants.screenHeight - 100).isActive = true
+        self.filteredGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        self.filteredGamesCV.topAnchor.constraint(equalTo: self.titleLbl.bottomAnchor, constant: 20).isActive = true
         
         self.newLbl.widthAnchor.constraint(equalToConstant: 125).isActive = true
         self.newLbl.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -634,8 +703,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.allGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         self.allGamesCV.topAnchor.constraint(equalTo: self.allLbl.bottomAnchor, constant: 20).isActive = true
         
-        
-        
     }
     
     
@@ -648,26 +715,18 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         switch sort {
             case .byDownloads:
-                gamesBufferAux = Games(games: gamesBufferAux.sortByDownloads())
+                gamesBufferAux = Games(games: gamesBufferAux.sortByDownloads(games: gamesBufferAux.games))
             case .byDate:
                 gamesBufferAux = Games(games: gamesBufferAux.sortByDate())
             case .byPrice:
                 gamesBufferAux = Games(games: gamesBufferAux.sortByPrice())
             default:
-                gamesBufferAux = Games(games: gamesBufferAux.sortByDownloads())
+                gamesBufferAux = Games(games: gamesBufferAux.sortByDownloads(games: gamesBufferAux.games))
         }
         
-        self.popularGames = gamesBufferAux.getPopularGames()
-        self.popularLbl.text = "Popular (\(self.popularGames.count))"
-        self.popularGamesCV.reloadData()
-        
-        self.newGames = gamesBufferAux.getRecentGames()
-        self.newLbl.text = "New (\(self.newGames.count))"
-        self.newGamesCV.reloadData()
-        
-        self.allGames = gamesBufferAux.games
-        self.allLbl.text = "All (\(self.allGames.count))"
-        self.allGamesCV.reloadData()
+        self.filteredGamesCV.isHidden = false
+        self.filteredGames = gamesBufferAux.games
+        self.filteredGamesCV.reloadData()
         
         
         self.isFiltering = true

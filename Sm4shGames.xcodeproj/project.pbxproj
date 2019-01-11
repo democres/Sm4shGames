@@ -131,6 +131,7 @@
 		1F192DE021D575FD005111F6 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				7FF5C79421E8ECE700766B96 /* DatabaseController.swift */,
 				1F192DC921D55F8E005111F6 /* AppDelegate.swift */,
 				1F192DCB21D55F8E005111F6 /* ViewController.swift */,
 				1F192DCD21D55F8E005111F6 /* Main.storyboard */,
@@ -206,7 +207,6 @@
 			isa = PBXGroup;
 			children = (
 				EF5ED2B121E0F58400D2C29B /* Games.swift */,
-				7FF5C79421E8ECE700766B96 /* DatabaseController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

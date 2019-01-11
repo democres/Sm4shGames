@@ -94,10 +94,10 @@ class Games {
     
     //MARK: SORTS
     
-    func sortByDownloads() -> [Game] {
+    func sortByDownloads(games: [Game]) -> [Game] {
         
         return self.games.sorted(by: {
-            $0.downloads!.compare($1.downloads!) == .orderedDescending
+            Int($0.downloads!)! > Int($1.downloads!)!
         })
         
     }

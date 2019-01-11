@@ -6,6 +6,10 @@
 //  Copyright © 2019 DavidF. All rights reserved.
 //
 
+
+
+
+
 import Foundation
 import CouchbaseLiteSwift
 
