@@ -85,14 +85,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         return label
     }()
     
-    var line1: UIView = {
+    var lineNewGames: UIView = {
         let line = UIView()
         line.backgroundColor = .lightGray
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
     
-    var line2: UIView = {
+    var linePopular: UIView = {
         let line = UIView()
         line.backgroundColor = .lightGray
         line.translatesAutoresizingMaskIntoConstraints = false
@@ -115,11 +115,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         self.view.backgroundColor = .white
 
-        var x = DatabaseController.shared.createDoc()
-        DatabaseController.shared.updateDoc(doc: x)
-        
-        // fetch games from API
-        self.showGames()
         
         //assign a target for the filterBtn
         self.filterBtn.addTarget(self, action: #selector(self.pressFilters(_:)), for: .touchUpInside)
@@ -181,10 +176,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         scrollView.addSubview(filterBtn)
         scrollView.addSubview(gameBrandCV)
         scrollView.addSubview(newLbl)
-        scrollView.addSubview(line1)
+        scrollView.addSubview(lineNewGames)
         scrollView.addSubview(newGamesCV)
         scrollView.addSubview(popularLbl)
-        scrollView.addSubview(line2)
+        scrollView.addSubview(linePopular)
         scrollView.addSubview(popularGamesCV)
         scrollView.addSubview(allLbl)
         scrollView.addSubview(line3)
@@ -193,6 +188,15 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         refreshControl.attributedTitle = NSAttributedString(string: "Loading Data")
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         scrollView.addSubview(refreshControl)
+        
+        
+        
+        // Show Cache games
+        self.showCacheGames()
+        
+        // fetch games from API
+        self.showGames()
+        
         
         setupConstraints()
     }
@@ -221,24 +225,18 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     
-//    func showCacheGames(){
-//
-//        self.popularGames = self.gamesBuffer.getPopularGames()
-//        self.popularLbl.text = "Popular (\(self.popularGames.count))"
-//        self.popularGamesCV.reloadData()
-//
-//        self.newGames = self.gamesBuffer.getRecentGames()
-//        self.newLbl.text = "New (\(self.newGames.count))"
-//        self.newGamesCV.reloadData()
-//
-//        self.allGames = self.gamesBuffer.games
-//        self.allLbl.text = "All (\(self.allGames.count))"
-//        self.allGamesCV.reloadData()
-//
-//        self.gameBrands = self.gamesBuffer.getAllBrands()
-//        self.gameBrandCV.reloadData()
-//
-//    }
+    func showCacheGames(){
+
+        guard let gamesCache = DatabaseController.shared.getGames() else {
+            print("No games in cache")
+            return
+        }
+        if gamesCache.count > 0 {
+            self.gamesBuffer = Games(games: gamesCache)
+            self.loadCollectionViews()
+        }
+        
+    }
     
     
     func showGames(){
@@ -249,7 +247,17 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             self.gamesBuffer = Games(games: result)
             self.loadCollectionViews()
             self.refreshControl.endRefreshing()
-
+            
+            self.storeGames(games: self.gamesBuffer.games)
+            
+        }
+        
+    }
+    
+    func storeGames(games: [Game]){
+        DatabaseController.shared.clearDatabase()
+        for game in games{
+            DatabaseController.shared.saveGame(objectId: game.objectId, name: game.name, brand: game.brand, price: game.price, imageUrl: game.imageUrl, genre: game.genre, popular: game.popular, updatedAt: game.updatedAt, createdAt: game.createdAt, description: game.description, downloads: game.downloads, sku: game.SKU, rating: game.rating)
         }
         
     }
@@ -277,11 +285,11 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     func showGamesByBrand(brand: String){
         
         if brand == "All" {
-            showGames()
+            self.showCacheGames()
             return
         }
         
-        var gamesBufferAux = Games(games: self.gamesBuffer.getGamesByBrand(brand: brand))
+        let gamesBufferAux = Games(games: self.gamesBuffer.getGamesByBrand(brand: brand))
         
         self.popularGames = gamesBufferAux.getPopularGames()
         self.popularLbl.text = "Popular (\(self.popularGames.count))"
@@ -297,7 +305,56 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     }
     
-    
+    override func viewWillLayoutSubviews() {
+        print ("DAMN")
+        
+        
+        
+        
+        // NORMAL LAYOUT
+        
+        if self.popularGames.count > 0 && self.newGames.count > 0 {
+            
+            self.popularGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+            self.popularGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            self.popularGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+            self.popularGamesCV.topAnchor.constraint(equalTo: self.popularLbl.bottomAnchor, constant: 20).isActive = true
+            
+            self.popularGamesCV.isHidden = false
+            self.popularLbl.isHidden = false
+            self.linePopular.isHidden = false
+        }
+        
+        // NO POPULAR GAMES
+        
+        if self.popularGames.count == 0 {
+            
+            self.allGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+            self.allGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            self.allGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+            self.allGamesCV.topAnchor.constraint(equalTo: self.popularLbl.bottomAnchor, constant: 20).isActive = true
+            
+            self.popularGamesCV.isHidden = true
+            self.popularLbl.isHidden = true
+            self.linePopular.isHidden = true
+            
+        }
+        
+//        // NO NEW GAMES
+//
+//        if self.newGames.count == 0 {
+//
+//            self.popularGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
+//            self.popularGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
+//            self.popularGamesCV.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+//            self.popularGamesCV.topAnchor.constraint(equalTo: self.newLbl.bottomAnchor, constant: 20).isActive = true
+//
+//            self.newGamesCV.isHidden = true
+//            self.newLbl.isHidden = true
+//            self.lineNewGames.isHidden = true
+//
+//        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -531,10 +588,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.newLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
         self.newLbl.topAnchor.constraint(equalTo: self.gameBrandCV.bottomAnchor, constant: 20).isActive = true
         
-        self.line1.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.line1.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.line1.leftAnchor.constraint(equalTo: self.newLbl.rightAnchor, constant: 0).isActive = true
-        self.line1.centerYAnchor.constraint(equalTo: self.newLbl.centerYAnchor, constant: 0).isActive = true
+        self.lineNewGames.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.lineNewGames.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.lineNewGames.leftAnchor.constraint(equalTo: self.newLbl.rightAnchor, constant: 0).isActive = true
+        self.lineNewGames.centerYAnchor.constraint(equalTo: self.newLbl.centerYAnchor, constant: 0).isActive = true
         
         self.newGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
         self.newGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
@@ -546,10 +603,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.popularLbl.centerXAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 80).isActive = true
         self.popularLbl.topAnchor.constraint(equalTo: self.newGamesCV.bottomAnchor, constant: 20).isActive = true
         
-        self.line2.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        self.line2.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.line2.leftAnchor.constraint(equalTo: self.popularLbl.rightAnchor, constant: 0).isActive = true
-        self.line2.centerYAnchor.constraint(equalTo: self.popularLbl.centerYAnchor, constant: 0).isActive = true
+        self.linePopular.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.linePopular.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.linePopular.leftAnchor.constraint(equalTo: self.popularLbl.rightAnchor, constant: 0).isActive = true
+        self.linePopular.centerYAnchor.constraint(equalTo: self.popularLbl.centerYAnchor, constant: 0).isActive = true
         
         self.popularGamesCV.widthAnchor.constraint(equalToConstant: Constants.screenWidth).isActive = true
         self.popularGamesCV.heightAnchor.constraint(equalToConstant: 200).isActive = true
