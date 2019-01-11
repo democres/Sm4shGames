@@ -12,7 +12,11 @@ import RangeSeekSlider
 import Cosmos
 
 protocol FilterVCDelegate: class {
-    func applyFilters(minPrice: Double, maxPrice: Double, rating: Int)
+    func applyFilters(minPrice: Double, maxPrice: Double, rating: Int, sort: sortedBy)
+}
+
+enum sortedBy {
+    case byDownloads, byDate, byPrice
 }
 
 class FilterViewController: UIViewController{
@@ -24,6 +28,10 @@ class FilterViewController: UIViewController{
     
     var maxPrice: Double!
     var minPrice: Double!
+    
+    @IBOutlet weak var sortByDownloads: UISwitch!
+    @IBOutlet weak var sortByDate: UISwitch!
+    @IBOutlet weak var sortByPrice: UISwitch!
     
     override func viewDidLoad()
     {
@@ -39,10 +47,39 @@ class FilterViewController: UIViewController{
     
     @IBAction func touchApplyFilters(_ sender: Any) {
         
+        var sortedByFilter = sortedBy.byDownloads
+        if sortByDownloads.isOn {
+            sortedByFilter = .byDownloads
+        }
+        if sortByDate.isOn {
+            sortedByFilter = .byDate
+        }
+        if sortByPrice.isOn {
+            sortedByFilter = .byPrice
+        }
+        
         delegate?.applyFilters(minPrice: Double(self.rangeSeeker!.selectedMinValue),
                                maxPrice: Double(self.rangeSeeker!.selectedMaxValue),
-                               rating: Int(self.ratingControl.rating))
+                               rating: Int(self.ratingControl.rating),
+                               sort: sortedByFilter)
         self.navigationController?.popViewController(animated: false)
+    }
+    
+    
+    
+    @IBAction func selectSortByDownloads(_ sender: Any) {
+        self.sortByDate.isOn = false
+        self.sortByPrice.isOn = false
+    }
+    
+    @IBAction func selectSortByDate(_ sender: Any) {
+        self.sortByPrice.isOn = false
+        self.sortByDownloads.isOn = false
+    }
+    
+    @IBAction func selectSortByPrice(_ sender: Any) {
+        self.sortByDate.isOn = false
+        self.sortByDownloads.isOn = false
     }
     
 }

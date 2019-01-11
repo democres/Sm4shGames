@@ -20,12 +20,11 @@ class Games {
 
         var sortedByDate = [Game]()
         
-        sortedByDate = games.filter({ $0.updatedAt != nil})
-            
+        sortedByDate = self.games.filter({ $0.updatedAt != nil})
         sortedByDate.sorted(by: {
             $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
         })
-        
+
         if sortedByDate.count >= 5 {
             return Array(sortedByDate[0 ..< 5])
         }
@@ -91,5 +90,35 @@ class Games {
         
         return sortedArray[sortedArray.count - 1].price!.doubleValue
     }
+    
+    
+    //MARK: SORTS
+    
+    func sortByDownloads() -> [Game] {
+        
+        return self.games.sorted(by: {
+            $0.downloads!.compare($1.downloads!) == .orderedDescending
+        })
+        
+    }
+    
+    func sortByDate() -> [Game] {
+        
+        var sortedByDate = [Game]()
+        sortedByDate = games.filter({ $0.updatedAt != nil})
+        
+        return sortedByDate.sorted(by: {
+            $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+        })
+    }
+    
+    func sortByPrice() -> [Game] {
+ 
+        return  self.games.sorted(by: {
+            $0.price!.doubleValue > $1.price!.doubleValue
+        })
+    }
+
+ 
     
 }

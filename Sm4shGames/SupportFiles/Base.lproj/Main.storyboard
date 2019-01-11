@@ -313,6 +313,34 @@ updates </string>
                                     <action selector="touchApplyFilters:" destination="wQ8-ji-1Hb" eventType="touchUpInside" id="1NQ-n3-xq0"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uDG-Xt-Jma">
+                                <rect key="frame" x="291" y="110" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="selectSortByDownloads:" destination="wQ8-ji-1Hb" eventType="touchUpInside" id="2Y7-NX-by8"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="i3T-sM-JHz">
+                                <rect key="frame" x="291" y="156" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="selectSortByDate:" destination="wQ8-ji-1Hb" eventType="touchUpInside" id="JeM-pE-fmU"/>
+                                </connections>
+                            </switch>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LKr-k2-ttf">
+                                <rect key="frame" x="291" y="202" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="selectSortByPrice:" destination="wQ8-ji-1Hb" eventType="valueChanged" id="tHw-Qb-kAb"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sort By" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Tl-ZW-dkO">
+                                <rect key="frame" x="154" y="63" width="57" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="kx8-0n-uWi"/>
@@ -320,6 +348,9 @@ updates </string>
                     <connections>
                         <outlet property="rangeSeeker" destination="aSN-J7-UOx" id="aCp-k7-Ibs"/>
                         <outlet property="ratingControl" destination="vUV-i2-GN6" id="T8r-df-Q5C"/>
+                        <outlet property="sortByDate" destination="i3T-sM-JHz" id="P5d-Y6-1cc"/>
+                        <outlet property="sortByDownloads" destination="uDG-Xt-Jma" id="Xm9-zq-GLZ"/>
+                        <outlet property="sortByPrice" destination="LKr-k2-ttf" id="0mb-S4-GPX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IyY-Wi-l7W" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -205,31 +205,60 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         setupConstraints()
     }
     
-    
-    @objc func refresh(_ sender:AnyObject) {
-        showGames()
-    }
+ 
     
     
-    @objc func pressFilters(_ sender: UIButton){
+    
+    //MARK: INHERITED METHODS
+    
+    override func viewWillLayoutSubviews() {
         
-        if self.isFiltering{
-            self.loadCollectionViews()
-            self.isFiltering = false
-            self.filterBtn.setTitle("FILTERS", for: .normal)
-        } else {
-            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
-            FilterVC.delegate = self
-            FilterVC.maxPrice = self.gamesBuffer.getMaxPrice()
-            FilterVC.minPrice = self.gamesBuffer.getMinPrice()
-            self.navigationController?.pushViewController(FilterVC, animated: true)
+        // NO POPULAR GAMES
+        if (self.popularGames != nil) {
+            if self.popularGames.count == 0 {
+                self.popularLbl.isHidden = true
+                self.popularGamesCV.isHidden = true
+                self.linePopular.isHidden = true
+                normalLayout?.isActive = false
+                self.alternativeLayout?.isActive = true
+            } else {
+                self.popularLbl.isHidden = false
+                self.popularGamesCV.isHidden = false
+                self.linePopular.isHidden = false
+                normalLayout?.isActive = true
+                self.alternativeLayout?.isActive = false
+            }
         }
+    
         
     }
     
     
-    func showCacheGames(){
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        if self.isFiltering {
+            self.filterBtn.setTitle("CLEAR", for: .normal)
+        } else {
+            self.filterBtn.setTitle("FILTERS", for: .normal)
+        }
+    }
+    
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    //MARK: CLASS METHODS
+    
+    private func showCacheGames(){
 
         guard let gamesCache = DatabaseController.shared.getGames() else {
             print("No games in cache")
@@ -243,7 +272,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     
-    func showGames(){
+    private func showGames(){
         
         let net = Networking()
         net.fetchGames { (result) in
@@ -258,7 +287,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     }
     
-    func storeGames(games: [Game]){
+    private func storeGames(games: [Game]){
         DatabaseController.shared.clearDatabase()
         for game in games{
             DatabaseController.shared.saveGame(objectId: game.objectId, name: game.name, brand: game.brand, price: game.price, imageUrl: game.imageUrl, genre: game.genre, popular: game.popular, updatedAt: game.updatedAt, createdAt: game.createdAt, description: game.description, downloads: game.downloads, sku: game.SKU, rating: game.rating)
@@ -266,7 +295,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
     }
     
-    func loadCollectionViews(){
+    private  func loadCollectionViews(){
         
         self.popularGames = self.gamesBuffer.getPopularGames()
         self.popularLbl.text = "Popular (\(self.popularGames.count))"
@@ -286,7 +315,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     
-    func showGamesByBrand(brand: String){
+    private func showGamesByBrand(brand: String){
         
         if brand == "All" {
             self.showCacheGames()
@@ -310,39 +339,26 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
 
     
-    override func viewWillLayoutSubviews() {
-        
-        // NO POPULAR GAMES
-        
-        if self.popularGames.count == 0 {
-            self.popularLbl.isHidden = true
-            self.popularGamesCV.isHidden = true
-            self.linePopular.isHidden = true
-            normalLayout?.isActive = false
-            self.alternativeLayout?.isActive = true
-        } else {
-            self.popularLbl.isHidden = false
-            self.popularGamesCV.isHidden = false
-            self.linePopular.isHidden = false
-            normalLayout?.isActive = true
-            self.alternativeLayout?.isActive = false
-        }
-       
-
+    @objc func refresh(_ sender:AnyObject) {
+        showGames()
     }
     
-
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    @objc func pressFilters(_ sender: UIButton){
         
-        if self.isFiltering {
-            self.filterBtn.setTitle("CLEAR", for: .normal)
-        } else {
+        if self.isFiltering{
+            self.loadCollectionViews()
+            self.isFiltering = false
             self.filterBtn.setTitle("FILTERS", for: .normal)
+        } else {
+            let storyBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let FilterVC = storyBoard.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+            FilterVC.delegate = self
+            FilterVC.maxPrice = self.gamesBuffer.getMaxPrice()
+            FilterVC.minPrice = self.gamesBuffer.getMinPrice()
+            self.navigationController?.pushViewController(FilterVC, animated: true)
         }
+        
     }
     
     
@@ -544,7 +560,13 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.navigationController?.pushViewController(DetailsVC, animated: true)
     }
     
-    //MARK: Constraints
+    
+    
+    
+    
+    
+    
+    //MARK: View Constraints
     
     func setupConstraints(){
         
@@ -619,10 +641,21 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     
     // MARK: FILTER DELEGATE
-    func applyFilters(minPrice: Double, maxPrice: Double, rating: Int) {
+    func applyFilters(minPrice: Double, maxPrice: Double, rating: Int, sort: sortedBy) {
         
         var gamesBufferAux = Games(games: self.gamesBuffer.filterByRange(min: minPrice, max: maxPrice))
         gamesBufferAux = Games(games: gamesBufferAux.filterByRating(rating: rating))
+        
+        switch sort {
+            case .byDownloads:
+                gamesBufferAux = Games(games: gamesBufferAux.sortByDownloads())
+            case .byDate:
+                gamesBufferAux = Games(games: gamesBufferAux.sortByDate())
+            case .byPrice:
+                gamesBufferAux = Games(games: gamesBufferAux.sortByPrice())
+            default:
+                gamesBufferAux = Games(games: gamesBufferAux.sortByDownloads())
+        }
         
         self.popularGames = gamesBufferAux.getPopularGames()
         self.popularLbl.text = "Popular (\(self.popularGames.count))"
@@ -636,23 +669,9 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.allLbl.text = "All (\(self.allGames.count))"
         self.allGamesCV.reloadData()
         
+        
         self.isFiltering = true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-}
-
-
-
-extension UIView {
-    func clearConstraints() {
-        for subview in self.subviews {
-            subview.clearConstraints()
-        }
-        self.removeConstraints(self.constraints)
-    }
 }
