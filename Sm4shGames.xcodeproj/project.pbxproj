@@ -18,11 +18,33 @@
 		1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D1E521D6AE4300EBBA36 /* Networking.swift */; };
 		33A37C848579CDDD547F55AB /* Pods_Sm4shGames.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */; };
 		7F1759FB21E7CCC100693520 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1759FA21E7CCC100693520 /* FilterViewController.swift */; };
+		7FF5C79221E8EC8C00766B96 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF5C79021E8EC8C00766B96 /* CouchbaseLiteSwift.framework */; };
+		7FF5C79321E8EC8C00766B96 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF5C79121E8EC8C00766B96 /* CouchbaseLite.framework */; };
+		7FF5C79521E8ECE700766B96 /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF5C79421E8ECE700766B96 /* DatabaseController.swift */; };
+		7FF5C79621E8EFCA00766B96 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF5C79121E8EC8C00766B96 /* CouchbaseLite.framework */; };
+		7FF5C79721E8EFCA00766B96 /* CouchbaseLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF5C79121E8EC8C00766B96 /* CouchbaseLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7FF5C79821E8EFCA00766B96 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF5C79021E8EC8C00766B96 /* CouchbaseLiteSwift.framework */; };
+		7FF5C79921E8EFCA00766B96 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF5C79021E8EC8C00766B96 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2AE21E0F0B600D2C29B /* Game.swift */; };
 		EF5ED2B221E0F58400D2C29B /* Games.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2B121E0F58400D2C29B /* Games.swift */; };
 		EF5ED2B421E10D4E00D2C29B /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5ED2B321E10D4E00D2C29B /* DetailsViewController.swift */; };
 		EF946F5321E40456001B82BB /* GameBrandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF946F5221E40456001B82BB /* GameBrandCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7FF5C79A21E8EFCA00766B96 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7FF5C79921E8EFCA00766B96 /* CouchbaseLiteSwift.framework in Embed Frameworks */,
+				7FF5C79721E8EFCA00766B96 /* CouchbaseLite.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1F192DC621D55F8E005111F6 /* Sm4shGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sm4shGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +60,9 @@
 		1F85D1E221D69AF000EBBA36 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1F85D1E521D6AE4300EBBA36 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		7F1759FA21E7CCC100693520 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		7FF5C79021E8EC8C00766B96 /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLiteSwift.framework; path = Carthage/Build/iOS/CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
+		7FF5C79121E8EC8C00766B96 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Carthage/Build/iOS/CouchbaseLite.framework; sourceTree = "<group>"; };
+		7FF5C79421E8ECE700766B96 /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
 		95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sm4shGames.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5ED2AE21E0F0B600D2C29B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		EF5ED2B121E0F58400D2C29B /* Games.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Games.swift; sourceTree = "<group>"; };
@@ -52,6 +77,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				33A37C848579CDDD547F55AB /* Pods_Sm4shGames.framework in Frameworks */,
+				7FF5C79221E8EC8C00766B96 /* CouchbaseLiteSwift.framework in Frameworks */,
+				7FF5C79821E8EFCA00766B96 /* CouchbaseLiteSwift.framework in Frameworks */,
+				7FF5C79621E8EFCA00766B96 /* CouchbaseLite.framework in Frameworks */,
+				7FF5C79321E8EC8C00766B96 /* CouchbaseLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +178,8 @@
 		ACEDE3AB56E40834785497DF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7FF5C79121E8EC8C00766B96 /* CouchbaseLite.framework */,
+				7FF5C79021E8EC8C00766B96 /* CouchbaseLiteSwift.framework */,
 				95987D5E7A124EF9976C10AF /* Pods_Sm4shGames.framework */,
 			);
 			name = Frameworks;
@@ -175,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				EF5ED2B121E0F58400D2C29B /* Games.swift */,
+				7FF5C79421E8ECE700766B96 /* DatabaseController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -191,7 +223,7 @@
 				1F192DC321D55F8E005111F6 /* Frameworks */,
 				1F192DC421D55F8E005111F6 /* Resources */,
 				190AC3F337FBBF10A66DFCAF /* [CP] Embed Pods Frameworks */,
-				C27E7DE110469F081C22CBD2 /* [CP] Copy Pods Resources */,
+				7FF5C79A21E8EFCA00766B96 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,7 +287,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/RangeSeekSlider/RangeSeekSlider.framework",
@@ -270,22 +302,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C27E7DE110469F081C22CBD2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sm4shGames/Pods-Sm4shGames-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E7E2A7EA5C431F71332E41DE /* [CP] Check Pods Manifest.lock */ = {
@@ -321,6 +338,7 @@
 				7F1759FB21E7CCC100693520 /* FilterViewController.swift in Sources */,
 				EF5ED2AF21E0F0B600D2C29B /* Game.swift in Sources */,
 				1F85D1E621D6AE4300EBBA36 /* Networking.swift in Sources */,
+				7FF5C79521E8ECE700766B96 /* DatabaseController.swift in Sources */,
 				1F85D1E021D6952700EBBA36 /* NewGamesCell.swift in Sources */,
 				1F192DDF21D57541005111F6 /* HomeViewController.swift in Sources */,
 				EF946F5321E40456001B82BB /* GameBrandCell.swift in Sources */,
@@ -472,6 +490,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EYQ528NVX6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Sm4shGames/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -491,6 +513,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EYQ528NVX6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Sm4shGames/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

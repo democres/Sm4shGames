@@ -10,6 +10,6 @@ target 'Sm4shGames' do
   pod 'SwiftyJSON', '~> 4.0'
   pod 'RangeSeekSlider'
   pod 'Cosmos', '~> 18.0'
-
+  
 end
 

@@ -115,10 +115,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         self.view.backgroundColor = .white
 
+        var x = DatabaseController.shared.createDoc()
+        DatabaseController.shared.updateDoc(doc: x)
+        
+        // fetch games from API
         self.showGames()
         
+        //assign a target for the filterBtn
         self.filterBtn.addTarget(self, action: #selector(self.pressFilters(_:)), for: .touchUpInside)
-
         
         let layoutBrandCV: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layoutBrandCV.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
